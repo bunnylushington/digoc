@@ -1,7 +1,8 @@
 defmodule DigOcTest do
   use ExUnit.Case
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  test "endpoint" do
+    assert is_binary(DigOc.endpoint)
+    assert String.starts_with? DigOc.endpoint, "https://"
   end
 end
