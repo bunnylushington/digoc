@@ -2,6 +2,7 @@ defmodule DigOc do
 
   @endpoint "https://api.digitalocean.com/v2/"
   @token_varible "DIGOC_API2_TOKEN"
+  @per_page 25
 
   @doc """
   Return the endpoint URL as a string.
@@ -32,5 +33,63 @@ defmodule DigOc do
     res
   end
   
+
+  # ------------------------- ACTIONS.
+  def actions(per_page \\ @per_page) do
+    {:ok, response} = DigOc.Request.get("actions?per_page=#{ per_page }")
+    {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
+  end
+
+  def actions!(per_page \\ @per_page) do
+    {_, res, _} = actions(per_page)
+    res
+  end
+
+
+  # ------------------------- PAGINATION.
+  def has_next?(data),  do: has_page?(data, :next)
+  def has_prev?(data),  do: has_page?(data, :prev)
+  def has_first?(data), do: has_page?(data, :first)
+  def has_last?(data),  do: has_page?(data, :last)
+  
+  def next_page(data),     do: get_page(data, :next)
+  def prev_page(data),     do: get_page(data, :prev)
+  def previous_page(data), do: get_page(data, :prev)
+  def last_page(data),     do: get_page(data, :last)
+  def first_page(data),    do: get_page(data, :first)
+
+  def next_page!(data),     do: get_page!(data, :next)
+  def prev_page!(data),     do: get_page!(data, :prev)
+  def previous_page!(data), do: get_page!(data, :prev)
+  def last_page!(data),     do: get_page!(data, :last)
+  def first_page!(data),    do: get_page!(data, :first)
+
+  defp has_page?(data, page), do: Dict.has_key?(data.links.pages, page)
+
+  defp get_page(data, page) do
+    if has_page?(data, page) do
+      Dict.get(data.links.pages, page) |> get_link
+    else
+      raise("No bookmark for #{ page } page.")
+    end
+  end
+
+  defp get_page!(data, page) do
+    if has_page?(data, page) do
+      Dict.get(data.links.pages, page) |> get_link!
+    else
+      raise("No bookmark for #{ page } page.")
+    end
+  end
+
+  defp get_link(url) do
+    {ok, response} = DigOc.Request.get(url)
+    {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
+  end
+
+  defp get_link!(url) do
+    {_, res, _} = get_link(url)
+    res
+  end
 
 end
