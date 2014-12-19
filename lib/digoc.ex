@@ -45,6 +45,16 @@ defmodule DigOc do
     res
   end
 
+  def action(id) do
+    {:ok, response} = DigOc.Request.get("actions/#{ id }")
+    {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
+  end
+
+  def action!(id) do
+    {_, res, _} = action(id)
+    res
+  end
+
 
   # ------------------------- PAGINATION.
   def has_next?(data),  do: has_page?(data, :next)
@@ -83,7 +93,7 @@ defmodule DigOc do
   end
 
   defp get_link(url) do
-    {ok, response} = DigOc.Request.get(url)
+    {:ok, response} = DigOc.Request.get(url)
     {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
   end
 

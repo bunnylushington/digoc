@@ -40,6 +40,15 @@ defmodule DigOcTest do
     assert DigOc.has_prev?(new_data)
     assert DigOc.has_first?(new_data)
   end
+
+  test "single action" do
+    actions = DigOc.actions! 1
+    action = hd(actions.actions)
+    other_action = DigOc.action! action.id
+    assert action == other_action.action
+  end
+    
+    
                        
 
 end
