@@ -11,4 +11,14 @@ defmodule DigOcTest do
     assert String.length(DigOc.api_token) == 64
   end
 
+  test "account" do
+    {:ok, data, headers} = DigOc.account
+    assert is_map(data)
+    assert is_map(headers)
+    assert is_integer(data.account.droplet_limit)
+    assert is_binary(data.account.email)
+    assert is_boolean(data.account.email_verified)
+    assert DigOc.account! == data
+  end
+
 end
