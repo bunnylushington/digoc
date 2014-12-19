@@ -2,3 +2,9 @@
 /deps
 erl_crash.dump
 *.ez
+
+*~
+.\#*
+.fuse*
+.nfs*
+\#*
