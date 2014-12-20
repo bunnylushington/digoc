@@ -31,6 +31,9 @@ defmodule DigOc do
   def action!(id), do: req!("actions/#{ id }")
 
 
+  # ------------------------- REGIONS.
+  def regions, do: req("regions")
+  def regions!, do: req!("regions")
 
   # ------------------------- SIZES.
   def sizes, do: req("sizes")

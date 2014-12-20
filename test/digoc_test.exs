@@ -48,10 +48,17 @@ defmodule DigOcTest do
     assert action == other_action.action
   end
 
+  test "regions" do
+    regions = DigOc.regions!()
+    assert length(regions.regions) == regions.meta.total
+    {:ok, data, _headers} = DigOc.regions
+    assert data.regions == regions.regions
+  end
+
   test "sizes" do
     sizes = DigOc.sizes!()
     assert length(sizes.sizes) == sizes.meta.total
-    {:ok, data, headers} = DigOc.sizes
+    {:ok, data, _headers} = DigOc.sizes
     assert data.sizes == sizes.sizes
   end
                     
