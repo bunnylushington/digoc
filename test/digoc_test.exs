@@ -48,6 +48,13 @@ defmodule DigOcTest do
     assert action == other_action.action
   end
 
+  test "get keys" do
+    keys = DigOc.keys!()
+    assert length(keys.ssh_keys) == keys.meta.total
+    {:ok, data, _headers} = DigOc.keys
+    assert keys.ssh_keys == data.ssh_keys
+  end
+
   test "regions" do
     regions = DigOc.regions!()
     assert length(regions.regions) == regions.meta.total

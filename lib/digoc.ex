@@ -31,6 +31,11 @@ defmodule DigOc do
   def action!(id), do: req!("actions/#{ id }")
 
 
+  # ------------------------- SSH KEYS.
+  def keys, do: req("account/keys")
+  def keys!, do: req!("account/keys")
+  
+
   # ------------------------- REGIONS.
   def regions, do: req("regions")
   def regions!, do: req!("regions")
