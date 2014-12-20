@@ -1,5 +1,7 @@
 defmodule DigOc do
 
+  import DigOc.Request, only: [req: 1, req!: 1]
+
   @endpoint "https://api.digitalocean.com/v2/"
   @token_varible "DIGOC_API2_TOKEN"
   @per_page 25
@@ -17,43 +19,16 @@ defmodule DigOc do
 
 
   # ------------------------- ACCOUNT.
-  @doc """
-  Get the account information.  Returns a 3-tuple {:ok, %data, %headers}.
-  """
-  def account do
-    {:ok, response} = DigOc.Request.get("account")
-    {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
-  end
+  def account, do: req("account")
+  def account!, do: req!("account")
 
-  @doc """
-  Like account but only returns the account data as a dictionary.
-  """
-  def account! do
-    {_, res, _} = account
-    res
-  end
-  
 
   # ------------------------- ACTIONS.
-  def actions(per_page \\ @per_page) do
-    {:ok, response} = DigOc.Request.get("actions?per_page=#{ per_page }")
-    {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
-  end
+  def actions(per_page \\ @per_page), do: req("actions?per_page=#{ per_page }")
+  def actions!(per_page \\ @per_page), do: req!("actions?per_page=#{per_page}")
 
-  def actions!(per_page \\ @per_page) do
-    {_, res, _} = actions(per_page)
-    res
-  end
-
-  def action(id) do
-    {:ok, response} = DigOc.Request.get("actions/#{ id }")
-    {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
-  end
-
-  def action!(id) do
-    {_, res, _} = action(id)
-    res
-  end
+  def action(id), do: req("actions/#{ id }")
+  def action!(id), do: req!("actions/#{ id }")
 
 
   # ------------------------- PAGINATION.
@@ -76,30 +51,16 @@ defmodule DigOc do
 
   defp has_page?(data, page), do: Dict.has_key?(data.links.pages, page)
 
-  defp get_page(data, page) do
+  defp get_page(data, page), do: _get_page(data, page, &req/1)
+  defp get_page!(data, page), do: _get_page(data, page, &req!/1)
+
+  defp _get_page(data, page, req_macro) do
     if has_page?(data, page) do
-      Dict.get(data.links.pages, page) |> get_link
+      req_macro.(Dict.get(data.links.pages, page))
     else
       raise("No bookmark for #{ page } page.")
     end
-  end
-
-  defp get_page!(data, page) do
-    if has_page?(data, page) do
-      Dict.get(data.links.pages, page) |> get_link!
-    else
-      raise("No bookmark for #{ page } page.")
-    end
-  end
-
-  defp get_link(url) do
-    {:ok, response} = DigOc.Request.get(url)
-    {:ok, Poison.decode!(response.body, keys: :atoms), response.headers}
-  end
-
-  defp get_link!(url) do
-    {_, res, _} = get_link(url)
-    res
-  end
+  end    
+    
 
 end
