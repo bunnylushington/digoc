@@ -47,8 +47,12 @@ defmodule DigOcTest do
     other_action = DigOc.action! action.id
     assert action == other_action.action
   end
-    
-    
-                       
 
+  test "sizes" do
+    sizes = DigOc.sizes!()
+    assert length(sizes.sizes) == sizes.meta.total
+    {:ok, data, headers} = DigOc.sizes
+    assert data.sizes == sizes.sizes
+  end
+                    
 end

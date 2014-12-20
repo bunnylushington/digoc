@@ -31,6 +31,11 @@ defmodule DigOc do
   def action!(id), do: req!("actions/#{ id }")
 
 
+
+  # ------------------------- SIZES.
+  def sizes, do: req("sizes")
+  def sizes!, do: req!("sizes")
+
   # ------------------------- PAGINATION.
   def has_next?(data),  do: has_page?(data, :next)
   def has_prev?(data),  do: has_page?(data, :prev)
