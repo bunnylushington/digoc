@@ -8,29 +8,60 @@ defmodule DigOc.Request do
       DigOc.endpoint <> url
     end
   end
-  
+
   def process_request_headers(headers) do
-    headers |> Keyword.merge [{ "Authorization", "Bearer #{ DigOc.api_token }"}]
+    [{ "Authorization", "Bearer #{ DigOc.api_token }" }] ++ headers
   end
 
+  def process_response_body(""), do: ""
   def process_response_body(body) do
     Poison.decode!(body, keys: :atoms)
   end
 
+  def postreq(path, body) do
+    encoded = Poison.Encoder.encode(body, [])
+    {:ok, response} = 
+      DigOc.Request.post(path, encoded, 
+                         [{ "Content-type", "application/json"} ])
+    {:ok, response.body, response.headers}
+  end
 
-  defmacro req(path) do
-    quote do
-      {:ok, response} = DigOc.Request.get(unquote(path))
+  def postreq!(path, body) do
+    {_, body, _} = postreq(path, body)
+    body
+  end
+
+  def putreq(path, body) do
+    encoded = Poison.Encoder.encode(body, [])
+    {:ok, response} = 
+      DigOc.Request.put(path, encoded, [{ "Content-type", "application/json"} ])
+    {:ok, response.body, response.headers}
+  end
+
+  def putreq!(path, body) do
+    {_, body, _} = putreq(path, body)
+    body
+  end
+
+  def delreq(path) do
+    {:ok, response} = DigOc.Request.delete(path)
+    {:ok, response.body, response.headers}
+  end
+
+  def delreq!(path) do
+    {_, body, _} = delreq(path)
+    body
+  end
+
+  def req(path) do
+      {:ok, response} = DigOc.Request.get(path)
       {:ok, response.body, response.headers}
-    end
   end
 
-  defmacro req!(path) do
-    quote do
-      {_, body, _} = req(unquote(path))
-      body
-    end
+  def req!(path) do
+    {_, body, _} = req(path)
+    body
   end
-
+  
 
 end

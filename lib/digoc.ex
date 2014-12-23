@@ -1,6 +1,9 @@
 defmodule DigOc do
 
-  import DigOc.Request, only: [req: 1, req!: 1]
+  import DigOc.Request, only: [req: 1,     req!: 1, 
+                               postreq: 2, postreq!: 2,
+                               putreq: 2,  putreq!: 2,
+                               delreq: 1,  delreq!: 1 ]
 
   @endpoint "https://api.digitalocean.com/v2/"
   @token_varible "DIGOC_API2_TOKEN"
@@ -34,7 +37,30 @@ defmodule DigOc do
   # ------------------------- SSH KEYS.
   def keys, do: req("account/keys")
   def keys!, do: req!("account/keys")
-  
+
+  def key(id), do: req("account/keys/#{ id }")
+  def key!(id), do: req!("account/keys/#{ id }")
+
+  def key(:new, name, public_key) do
+    postreq("account/keys", %{ name: name, public_key: public_key})
+  end
+
+  def key(:update, id, new_name) do
+    putreq("account/keys/#{ id }", %{ name: new_name })
+  end
+
+  def key!(:new, name, public_key) do
+    postreq!("account/keys", %{ name: name, public_key: public_key})
+  end
+
+  def key!(:update, id, new_name) do
+    putreq!("account/keys/#{ id }", %{ name: new_name })
+  end
+
+
+  def key(:destroy, id), do: delreq("account/keys/#{ id }")
+  def key!(:destroy, id), do: delreq("account/keys/#{ id }")
+
 
   # ------------------------- REGIONS.
   def regions, do: req("regions")
