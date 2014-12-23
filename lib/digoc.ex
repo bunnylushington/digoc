@@ -33,6 +33,10 @@ defmodule DigOc do
   def action(id), do: req("actions/#{ id }")
   def action!(id), do: req!("actions/#{ id }")
 
+  # ------------------------- DROPLETS.
+  def droplets, do: req("droplets")
+  def droplets!, do: req!("droplets")
+
 
   # ------------------------- SSH KEYS.
   def keys, do: req("account/keys")
