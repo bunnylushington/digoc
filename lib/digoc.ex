@@ -37,6 +37,10 @@ defmodule DigOc do
   def droplets, do: req("droplets")
   def droplets!, do: req!("droplets")
 
+  
+  def pretty_print(droplet_list) do
+    DigOc.Pretty.droplets(droplet_list)
+  end
 
   # ------------------------- SSH KEYS.
   def keys, do: req("account/keys")
