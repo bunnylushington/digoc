@@ -22,6 +22,11 @@ defmodule DigOcDropletsTest do
     assert is_binary(kernel.name)
   end
 
+  test "retrieve snapshots", %{ droplet: droplet } do
+    snapshot = DigOc.droplet!(:snapshots, droplet.id)
+    assert is_list(snapshot.snapshots)
+  end
+    
     
 
 end
