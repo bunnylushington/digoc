@@ -8,6 +8,8 @@ defmodule DigOc do
   @endpoint "https://api.digitalocean.com/v2/"
   @token_varible "DIGOC_API2_TOKEN"
   @per_page 25
+  @wait_time_ms 5000
+
 
   @doc """
   Return the endpoint URL as a string.
@@ -45,19 +47,29 @@ defmodule DigOc do
   def droplet(:snapshots, id), do: req("droplets/#{ id }/snapshots")
   def droplet(:backups, id), do: req("droplets/#{ id }/backups")
   def droplet(:actions, id), do: req("droplets/#{ id }/actions")
-
-  def droplet(:new, %{ name: name } = props) do
-    IO.puts name
-    IO.puts inspect props
-  end
+  def droplet(:new, props), do: postreq("droplets", props)
+  def droplet(:delete, id), do: delreq("droplets/#{ id }")
 
   def droplet!(:kernels, id), do: droplet(:kernels, id) |> response
   def droplet!(:snapshots, id), do: droplet(:snapshots, id) |> response
   def droplet!(:backups, id), do: droplet(:backups, id) |> response
   def droplet!(:actions, id), do: droplet(:actions, id) |> response
+  def droplet!(:new, props), do: droplet(:new, props) |> response
+  def droplet!(:delete, id), do: droplet(:delete, id) |> response
 
   def upgrades, do: req("droplet_upgrades")
   def upgrades!, do: upgrades |> response
+
+  def wait_for_status(droplet_id, desired_status) do
+    if droplet!(droplet_id).droplet.status == to_string(desired_status) do
+      :ok
+    else
+      IO.puts :stderr, 
+         "Waiting for droplet #{ droplet_id } to become #{ desired_status }."
+      :timer.sleep(@wait_time_ms)
+      wait_for_status(droplet_id, desired_status)
+    end
+  end
 
   def pretty_print(droplet_list) do
     DigOc.Pretty.droplets(droplet_list)
@@ -68,7 +80,7 @@ defmodule DigOc do
     query = if type, do: "?type=#{ type }", else: ""
     req("images#{ query }")
   end
-  def images!(type \\ nil), do: images |> response
+  def images!(type \\ nil), do: images(type) |> response
 
   def image(id), do: req("images/#{ id }")
   def image!(id), do: image(id) |> response
