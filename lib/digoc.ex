@@ -20,34 +20,39 @@ defmodule DigOc do
   """
   def api_token, do: System.get_env(@token_varible)
 
+  defp response({_, body, _}), do: body
 
   # ------------------------- ACCOUNT.
   def account, do: req("account")
-  def account!, do: req!("account")
+  def account!, do: account |> response
 
 
   # ------------------------- ACTIONS.
   def actions(per_page \\ @per_page), do: req("actions?per_page=#{ per_page }")
-  def actions!(per_page \\ @per_page), do: req!("actions?per_page=#{per_page}")
+  def actions!(per_page \\ @per_page), do: actions(per_page) |> response
 
   def action(id), do: req("actions/#{ id }")
-  def action!(id), do: req!("actions/#{ id }")
+  def action!(id), do: action(id) |> response
 
   # ------------------------- DROPLETS.
   def droplets, do: req("droplets")
-  def droplets!, do: req!("droplets")
+  def droplets!, do: droplets |> response
 
-  
+  def droplet(:new, %{ name: name } = props) do
+    IO.puts name
+    IO.puts inspect props
+  end
+
   def pretty_print(droplet_list) do
     DigOc.Pretty.droplets(droplet_list)
   end
 
   # ------------------------- SSH KEYS.
   def keys, do: req("account/keys")
-  def keys!, do: req!("account/keys")
+  def keys!, do: keys |> response
 
   def key(id), do: req("account/keys/#{ id }")
-  def key!(id), do: req!("account/keys/#{ id }")
+  def key!(id), do: key(id) |> response
 
   def key(:new, name, public_key) do
     postreq("account/keys", %{ name: name, public_key: public_key})
@@ -56,10 +61,7 @@ defmodule DigOc do
   def key(:update, id, new_name) do
     putreq("account/keys/#{ id }", %{ name: new_name })
   end
-
-  def key!(:new, name, public_key) do
-    postreq!("account/keys", %{ name: name, public_key: public_key})
-  end
+  def key!(:new, name, public_key), do: key(:new, name, public_key) |> response
 
   def key!(:update, id, new_name) do
     putreq!("account/keys/#{ id }", %{ name: new_name })
@@ -67,16 +69,16 @@ defmodule DigOc do
 
 
   def key(:destroy, id), do: delreq("account/keys/#{ id }")
-  def key!(:destroy, id), do: delreq("account/keys/#{ id }")
+  def key!(:destroy, id), do: key(:destroy, id) |> response
 
 
   # ------------------------- REGIONS.
   def regions, do: req("regions")
-  def regions!, do: req!("regions")
+  def regions!, do: regions |> response
 
   # ------------------------- SIZES.
   def sizes, do: req("sizes")
-  def sizes!, do: req!("sizes")
+  def sizes!, do: sizes |> response
 
   # ------------------------- PAGINATION.
   def has_next?(data),  do: has_page?(data, :next)
@@ -99,7 +101,7 @@ defmodule DigOc do
   defp has_page?(data, page), do: Dict.has_key?(data.links.pages, page)
 
   defp get_page(data, page), do: _get_page(data, page, &req/1)
-  defp get_page!(data, page), do: _get_page(data, page, &req!/1)
+  defp get_page!(data, page), do: get_page(data, page) |> response
 
   defp _get_page(data, page, req_macro) do
     if has_page?(data, page) do
