@@ -63,6 +63,13 @@ defmodule DigOc do
     DigOc.Pretty.droplets(droplet_list)
   end
 
+  # ------------------------- IMAGES.
+  def images(type \\ nil) do
+    query = if type, do: "?type=#{ type }", else: ""
+    req("images#{ query }")
+  end
+  def images!(type \\ nil), do: images |> response
+
   # ------------------------- SSH KEYS.
   def keys, do: req("account/keys")
   def keys!, do: keys |> response
