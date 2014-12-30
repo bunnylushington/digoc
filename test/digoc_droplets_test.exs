@@ -31,7 +31,14 @@ defmodule DigOcDropletsTest do
     backup = DigOc.droplet!(:backups, droplet.id)
     assert is_list(backup.backups)
   end
-    
-    
+
+  test "retrieve actions", %{ droplet: droplet } do
+    actions = DigOc.droplet!(:actions, droplet.id)
+    assert is_list(actions.actions)
+  end
+
+  test "droplet upgrades" do
+    assert is_list(DigOc.upgrades!)
+  end
 
 end
