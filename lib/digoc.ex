@@ -42,12 +42,16 @@ defmodule DigOc do
   def droplet!(id), do: droplet(id) |> response
 
   def droplet(:kernels, id), do: req("droplets/#{ id }/kernels")
-  def droplet!(:kernels, id), do: droplet(:kernels, id) |> response
+  def droplet(:snapshots, id), do: req("droplets/#{ id }/snapshots")
 
   def droplet(:new, %{ name: name } = props) do
     IO.puts name
     IO.puts inspect props
   end
+
+  def droplet!(:kernels, id), do: droplet(:kernels, id) |> response
+  def droplet!(:snapshots, id), do: droplet(:snapshots, id) |> response
+
 
   def pretty_print(droplet_list) do
     DigOc.Pretty.droplets(droplet_list)
