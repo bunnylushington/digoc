@@ -43,6 +43,7 @@ defmodule DigOc do
 
   def droplet(:kernels, id), do: req("droplets/#{ id }/kernels")
   def droplet(:snapshots, id), do: req("droplets/#{ id }/snapshots")
+  def droplet(:backups, id), do: req("droplets/#{ id }/backups")
 
   def droplet(:new, %{ name: name } = props) do
     IO.puts name
@@ -51,7 +52,7 @@ defmodule DigOc do
 
   def droplet!(:kernels, id), do: droplet(:kernels, id) |> response
   def droplet!(:snapshots, id), do: droplet(:snapshots, id) |> response
-
+  def droplet!(:backups, id), do: droplet(:backups, id) |> response
 
   def pretty_print(droplet_list) do
     DigOc.Pretty.droplets(droplet_list)
