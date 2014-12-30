@@ -13,4 +13,13 @@ defmodule DigOcDropletsTest do
     assert single_drop.droplet == drop
   end
 
+  test "list available kernels" do
+    droplet = hd(DigOc.droplets!.droplets)
+    kernel = hd(DigOc.droplet!(:kernels, droplet.id).kernels)
+    assert is_integer(kernel.id)
+    assert is_binary(kernel.version)
+    assert is_binary(kernel.name)
+  end
+    
+
 end
