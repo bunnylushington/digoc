@@ -1,9 +1,9 @@
 defmodule DigOc do
 
-  import DigOc.Request, only: [req: 1,     req!: 1, 
-                               postreq: 2, postreq!: 2,
-                               putreq: 2,  putreq!: 2,
-                               delreq: 1,  delreq!: 1 ]
+  import DigOc.Request, only: [req: 1,    
+                               postreq: 2,
+                               putreq: 2, 
+                               delreq: 1 ]
 
   @endpoint "https://api.digitalocean.com/v2/"
   @token_varible "DIGOC_API2_TOKEN"
@@ -61,12 +61,9 @@ defmodule DigOc do
   def key(:update, id, new_name) do
     putreq("account/keys/#{ id }", %{ name: new_name })
   end
+  def key!(:update, id, new_name), do: key(:update, id, new_name) |> response
+
   def key!(:new, name, public_key), do: key(:new, name, public_key) |> response
-
-  def key!(:update, id, new_name) do
-    putreq!("account/keys/#{ id }", %{ name: new_name })
-  end
-
 
   def key(:destroy, id), do: delreq("account/keys/#{ id }")
   def key!(:destroy, id), do: key(:destroy, id) |> response

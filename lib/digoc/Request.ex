@@ -26,11 +26,6 @@ defmodule DigOc.Request do
     {:ok, response.body, response.headers}
   end
 
-  def postreq!(path, body) do
-    {_, body, _} = postreq(path, body)
-    body
-  end
-
   def putreq(path, body) do
     encoded = Poison.Encoder.encode(body, [])
     {:ok, response} = 
@@ -38,30 +33,14 @@ defmodule DigOc.Request do
     {:ok, response.body, response.headers}
   end
 
-  def putreq!(path, body) do
-    {_, body, _} = putreq(path, body)
-    body
-  end
-
   def delreq(path) do
     {:ok, response} = DigOc.Request.delete(path)
     {:ok, response.body, response.headers}
-  end
-
-  def delreq!(path) do
-    {_, body, _} = delreq(path)
-    body
   end
 
   def req(path) do
       {:ok, response} = DigOc.Request.get(path)
       {:ok, response.body, response.headers}
   end
-
-  def req!(path) do
-    {_, body, _} = req(path)
-    body
-  end
-  
 
 end
