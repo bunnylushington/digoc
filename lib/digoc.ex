@@ -38,6 +38,9 @@ defmodule DigOc do
   def droplets, do: req("droplets")
   def droplets!, do: droplets |> response
 
+  def droplet(id), do: req("droplets/#{ id }")
+  def droplet!(id), do: droplet(id) |> response
+
   def droplet(:new, %{ name: name } = props) do
     IO.puts name
     IO.puts inspect props
