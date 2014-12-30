@@ -70,6 +70,15 @@ defmodule DigOc do
   end
   def images!(type \\ nil), do: images |> response
 
+  def image(id), do: req("images/#{ id }")
+  def image!(id), do: image(id) |> response
+
+  def image(:delete, id), do: :not_implemented
+  def image(:update, id, name), do: :not_implemented
+
+  def image!(:delete, id), do: image(:delete, id) |> response
+  def image!(:update, id, name), do: image(:update, id, name) |> response
+
   # ------------------------- SSH KEYS.
   def keys, do: req("account/keys")
   def keys!, do: keys |> response
