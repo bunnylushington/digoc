@@ -9,7 +9,8 @@ defmodule DigOc.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :httpoison]]
+    [applications: [:logger, :httpoison],
+     mod: { DigOc.Supervisor, []}]
   end
 
   # Dependencies can be Hex packages:
