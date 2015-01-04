@@ -11,6 +11,10 @@ defmodule DigOcTest do
     assert String.length(DigOc.api_token) == 64
   end
 
+  test "event manager" do
+    assert is_atom(DigOc.event_manager)
+  end
+
   test "account" do
     {:ok, data, headers} = DigOc.account
     assert is_map(data)
