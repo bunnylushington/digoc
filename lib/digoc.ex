@@ -28,6 +28,12 @@ defmodule DigOc do
   def event_manager, do: @event_manager
 
   defp response({_, body, _}), do: body
+  
+  @doc """
+  Given a result or a result body, return the droplet ID.
+  """
+  def id_from_result(res) when is_map(res), do: res.droplet.id
+  def id_from_result({_, body, _}), do: body.droplet.id
 
   # ------------------------- ACCOUNT.
   def account, do: req("account")
@@ -52,7 +58,12 @@ defmodule DigOc do
   def droplet(:snapshots, id), do: req("droplets/#{ id }/snapshots")
   def droplet(:backups, id), do: req("droplets/#{ id }/backups")
   def droplet(:actions, id), do: req("droplets/#{ id }/actions")
-  def droplet(:new, props), do: postreq("droplets", props)
+  def droplet(:new, props) do
+    res = postreq("droplets", props)
+    droplet_id = id_from_result(res)
+    spawn(DigOc, :wait_for_status, [droplet_id, :active])
+    res
+  end
   def droplet(:delete, id), do: delreq("droplets/#{ id }")
 
   def droplet!(:kernels, id), do: droplet(:kernels, id) |> response
@@ -67,10 +78,9 @@ defmodule DigOc do
 
   def wait_for_status(droplet_id, desired_status) do
     if droplet!(droplet_id).droplet.status == to_string(desired_status) do
-      :ok
+      GenEvent.sync_notify(event_manager, 
+                           {:achieved_status, droplet_id, desired_status})
     else
-      IO.puts :stderr, 
-         "Waiting for droplet #{ droplet_id } to become #{ desired_status }."
       :timer.sleep(@wait_time_ms)
       wait_for_status(droplet_id, desired_status)
     end
