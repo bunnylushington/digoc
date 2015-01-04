@@ -9,7 +9,7 @@ defmodule DigOc do
   @token_varible "DIGOC_API2_TOKEN"
   @per_page 25
   @wait_time_ms 5000
-
+  @event_manager DigOc.EM
 
   @doc """
   Return the endpoint URL as a string.
@@ -21,6 +21,11 @@ defmodule DigOc do
   the environment variable DIGOC_API2_TOKEN.
   """
   def api_token, do: System.get_env(@token_varible)
+
+  @doc """
+  Return the name of the event manager.
+  """
+  def event_manager, do: @event_manager
 
   defp response({_, body, _}), do: body
 
