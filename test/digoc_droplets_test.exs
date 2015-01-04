@@ -15,6 +15,13 @@ defmodule DigOcDropletsTest do
     assert single_drop.droplet == droplet
   end
 
+  test "get droplet id", %{ droplet: droplet } do
+    res = DigOc.droplet(droplet.id)
+    assert DigOc.id_from_result(res) == droplet.id
+    {_, body, _} = res
+    assert DigOc.id_from_result(body) == droplet.id
+  end
+
   test "list available kernels", %{ droplet: droplet } do
     kernel = hd(DigOc.droplet!(:kernels, droplet.id).kernels)
     assert is_integer(kernel.id)
