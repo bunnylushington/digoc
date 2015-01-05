@@ -46,5 +46,20 @@ defmodule DigOc.Macros.Droplet do
       end
     end
   end
+  
+  defmacro make_simple_req(action) do
+    bang_name = DigOc.bang(action)
+    quote do
+      @doc """
+      Request a list of #{ unquote(action) } associated with the droplet.
+      """
+      def unquote(action)(id), do: req("droplets/#{ id }/#{ unquote(action) }")
+
+      @doc """
+      Like `#{ unquote(action) }/1` but returns the response body only.
+      """
+      def unquote(bang_name)(id), do: unquote(action)(id) |> response
+    end
+  end
 
 end

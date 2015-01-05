@@ -1,7 +1,7 @@
 defmodule DigOc.Droplet do
 
   import DigOc, only: [response: 1, event_manager: 0, wait_time: 0]
-  import DigOc.Request, only: [req: 1, postreq: 2]
+  import DigOc.Request, only: [req: 1, postreq: 2, delreq: 1]
   require DigOc.Macros.Droplet, as: M
 
   @moduledoc """ 
@@ -36,6 +36,36 @@ defmodule DigOc.Droplet do
   M.make_action(:rename, :name) 
   M.make_action(:change_kernel, :kernel) 
   M.make_action(:snapshot, :name) 
+
+  M.make_simple_req(:kernels)
+  M.make_simple_req(:snapshots)
+  M.make_simple_req(:backups)
+  M.make_simple_req(:actions)
+
+  @doc """
+  Deletes the droplet.
+  """
+  def delete(id), do: delreq("droplets/#{ id }")
+
+  @doc """
+  Like `delete/1` but returns only the respose body.
+  """
+  def delete!(id), do: delete(id) |> response
+
+  @doc """
+  Request a new droplet.
+  """
+  def new(props) do
+    res = postreq("droplets", props)
+    droplet_id = DigOc.id_from_result(res)
+    spawn(DigOc, :wait_for_status, [droplet_id, :active])
+    res
+  end
+
+  @doc """
+  Like `new/1` but returns only the response body.
+  """
+  def new!(props), do: new(props) |> response
 
   defp task(id, action, extra \\ %{}) do
     map = Map.merge( %{ type: action }, extra )

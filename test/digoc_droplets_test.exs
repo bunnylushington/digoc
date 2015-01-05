@@ -23,24 +23,24 @@ defmodule DigOcDropletsTest do
   end
 
   test "list available kernels", %{ droplet: droplet } do
-    kernel = hd(DigOc.droplet!(:kernels, droplet.id).kernels)
+    kernel = hd(DigOc.Droplet.kernels!(droplet.id).kernels)
     assert is_integer(kernel.id)
     assert is_binary(kernel.version)
     assert is_binary(kernel.name)
   end
 
   test "retrieve snapshots", %{ droplet: droplet } do
-    snapshot = DigOc.droplet!(:snapshots, droplet.id)
+    snapshot = DigOc.Droplet.snapshots!(droplet.id)
     assert is_list(snapshot.snapshots)
   end
 
   test "retrieve backups", %{ droplet: droplet } do
-    backup = DigOc.droplet!(:backups, droplet.id)
+    backup = DigOc.Droplet.backups!(droplet.id)
     assert is_list(backup.backups)
   end
 
   test "retrieve actions", %{ droplet: droplet } do
-    actions = DigOc.droplet!(:actions, droplet.id)
+    actions = DigOc.Droplet.actions!(droplet.id)
     assert is_list(actions.actions)
   end
 

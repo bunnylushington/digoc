@@ -33,7 +33,7 @@ defmodule DigOcActionsTest do
 
     # -- create.
     IO.puts "Creating new droplet."
-    res = DigOc.droplet!(:new, info)
+    res = DigOc.Droplet.new!(info)
     id = res.droplet.id
     assert is_integer(id)
     assert_receive {:achieved_status, id, :active}, @timeout
