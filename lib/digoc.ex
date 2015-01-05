@@ -194,20 +194,31 @@ defmodule DigOc do
 
 
   # ------------------------- IMAGES.
+  @doc """
+  Lists available images.  Type may be `:application` or `:distribution`. 
+  """
   def images(type \\ nil) do
     query = if type, do: "?type=#{ type }", else: ""
     req("images#{ query }")
   end
+
+  
+  @doc """
+  Like `images/1` but returns response body only.
+  """
   def images!(type \\ nil), do: images(type) |> response
 
+  
+  @doc """
+  Return an image by id.
+  """
   def image(id), do: req("images/#{ id }")
+
+
+  @doc """
+  Like `image/1` but returns response body only.
+  """
   def image!(id), do: image(id) |> response
-
-  def image(:delete, id), do: :not_implemented
-  def image(:update, id, name), do: :not_implemented
-
-  def image!(:delete, id), do: image(:delete, id) |> response
-  def image!(:update, id, name), do: image(:update, id, name) |> response
 
 
   # ------------------------- SSH KEYS.

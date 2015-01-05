@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DigOc.Droplet</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <section id="content">
+      <div class="breadcrumbs">digoc v0.0.1 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="DigOc.html">DigOc</a> &rarr; <a href="DigOc.Droplet.html">Droplet</a></div>
+      <h1>
+        DigOc.Droplet
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+        <section id="moduledoc" class="docstring">
+          <p>For each of the actions (power_cycle, reboot, &amp;c.) an action record
+is returned.  When that happens, an async polling loop is created
+that monitors that record for the status to change from
+“in-progress.”  When it does, a message is posted to the event
+manager.  That message has the payload:</p>
+<pre><code>{ :action_finished, droplet_id, action_id, action_record }</code></pre>
+<p>Handlers may be attached to the event manager to take appropriate
+actions upon completion.  Note that the EM’s name can be disovered
+with <a href="DigOc.html#event_manager/0"><code class="inline">DigOc.event_manager/0</code></a>.</p>
+
+        </section>
+      
+
+      
+
+      
+        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#action!/2">action!(droplet_id, action_id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#action/2"><code class="inline">action/2</code></a> but return only the response body</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#action/2">action(droplet_id, action_id)</a></td>
+  
+    <td class="summary_synopsis"><p>Request the action object associated with the droplet_id and action_id</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#actions!/1">actions!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#actions/1"><code class="inline">actions/1</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#actions/1">actions(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Request a list of actions associated with the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#backups!/1">backups!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#backups/1"><code class="inline">backups/1</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#backups/1">backups(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Request a list of backups associated with the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#change_kernel!/2">change_kernel!(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#change_kernel/2"><code class="inline">change_kernel/2</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#change_kernel/2">change_kernel(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>change_kernel</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete!/1">delete!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#delete/1"><code class="inline">delete/1</code></a> but returns only the respose body</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete/1">delete(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Deletes the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#disable_backups!/1">disable_backups!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">disable_backups</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#disable_backups/1">disable_backups(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>disable_backups</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#enable_ipv6!/1">enable_ipv6!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">enable_ipv6</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#enable_ipv6/1">enable_ipv6(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>enable_ipv6</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#enable_private_networking!/1">enable_private_networking!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">enable_private_networking</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#enable_private_networking/1">enable_private_networking(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>enable_private_networking</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#feature_from_action/2">feature_from_action(res, key)</a></td>
+  
+    <td class="summary_synopsis"><p>Return the value associated with the key</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#kernels!/1">kernels!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#kernels/1"><code class="inline">kernels/1</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#kernels/1">kernels(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Request a list of kernels associated with the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#migrate_droplet!/1">migrate_droplet!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">migrate_droplet</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#migrate_droplet/1">migrate_droplet(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>migrate_droplet</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new!/1">new!(props)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#new/1"><code class="inline">new/1</code></a> but returns only the response body</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#new/1">new(props)</a></td>
+  
+    <td class="summary_synopsis"><p>Request a new droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#password_reset!/1">password_reset!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">password_reset</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#password_reset/1">password_reset(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>password_reset</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#power_cycle!/1">power_cycle!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">power_cycle</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#power_cycle/1">power_cycle(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>power_cycle</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#power_off!/1">power_off!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">power_off</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#power_off/1">power_off(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>power_off</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#power_on!/1">power_on!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">power_on</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#power_on/1">power_on(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>power_on</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reboot!/1">reboot!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">reboot</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#reboot/1">reboot(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>reboot</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#rebuild!/2">rebuild!(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#rebuild/2"><code class="inline">rebuild/2</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#rebuild/2">rebuild(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>rebuild</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#rename!/2">rename!(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#rename/2"><code class="inline">rename/2</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#rename/2">rename(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>rename</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#resize!/2">resize!(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#resize/2"><code class="inline">resize/2</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#resize/2">resize(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>resize</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#restore!/2">restore!(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#restore/2"><code class="inline">restore/2</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#restore/2">restore(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>restore</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#shutdown!/1">shutdown!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">shutdown</code> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#shutdown/1">shutdown(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>shutdown</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#snapshot!/2">snapshot!(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#snapshot/2"><code class="inline">snapshot/2</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#snapshot/2">snapshot(id, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Take the action <strong>snapshot</strong> on the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#snapshots!/1">snapshots!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#snapshots/1"><code class="inline">snapshots/1</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#snapshots/1">snapshots(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Request a list of snapshots associated with the droplet</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#upgrades!/0">upgrades!()</a></td>
+  
+    <td class="summary_synopsis"><p>Like <code class="inline">upgrades/1</code> but return only the response body</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#upgrades/0">upgrades()</a></td>
+  
+    <td class="summary_synopsis"><p>Request a list of droplet upgrades</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#wait_for_action/2">wait_for_action(droplet_id, action_id)</a></td>
+  
+    <td class="summary_synopsis"><p>Occasionally polls until an action object has a status of something
+other than “in-progress”.  The poll interval is determined by the
+value returned by <a href="DigOc.html#wait_time/0"><code class="inline">DigOc.wait_time/0</code></a>.  When the status changes a
+notification, described above, is posted to the event manager</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#wait_for_status/2">wait_for_status(droplet_id, desired_status)</a></td>
+  
+    <td class="summary_synopsis"><p>Poll until the status associated with a droplet matches the status
+provided.  When that is achieved, a notification is sent to the
+event manager with the payload</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <section class="detail">
+  <div class="detail_header" id="action/2">
+    <span class="signature"><strong>action(droplet_id, action_id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#action/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request the action object associated with the droplet_id and action_id.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="action!/2">
+    <span class="signature"><strong>action!(droplet_id, action_id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#action!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#action/2"><code class="inline">action/2</code></a> but return only the response body.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="actions/1">
+    <span class="signature"><strong>actions(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#actions/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request a list of actions associated with the droplet.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="actions!/1">
+    <span class="signature"><strong>actions!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#actions!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#actions/1"><code class="inline">actions/1</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="backups/1">
+    <span class="signature"><strong>backups(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#backups/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request a list of backups associated with the droplet.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="backups!/1">
+    <span class="signature"><strong>backups!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#backups!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#backups/1"><code class="inline">backups/1</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="change_kernel/2">
+    <span class="signature"><strong>change_kernel(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#change_kernel/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>change_kernel</strong> on the droplet.  </p>
+<p>Both the droplet id and the kernel must be provided.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="change_kernel!/2">
+    <span class="signature"><strong>change_kernel!(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#change_kernel!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#change_kernel/2"><code class="inline">change_kernel/2</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delete/1">
+    <span class="signature"><strong>delete(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Deletes the droplet.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delete!/1">
+    <span class="signature"><strong>delete!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#delete/1"><code class="inline">delete/1</code></a> but returns only the respose body.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="disable_backups/1">
+    <span class="signature"><strong>disable_backups(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#disable_backups/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>disable_backups</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="disable_backups!/1">
+    <span class="signature"><strong>disable_backups!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#disable_backups!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">disable_backups</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="enable_ipv6/1">
+    <span class="signature"><strong>enable_ipv6(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#enable_ipv6/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>enable_ipv6</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="enable_ipv6!/1">
+    <span class="signature"><strong>enable_ipv6!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#enable_ipv6!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">enable_ipv6</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="enable_private_networking/1">
+    <span class="signature"><strong>enable_private_networking(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#enable_private_networking/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>enable_private_networking</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="enable_private_networking!/1">
+    <span class="signature"><strong>enable_private_networking!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#enable_private_networking!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">enable_private_networking</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="feature_from_action/2">
+    <span class="signature"><strong>feature_from_action(res, key)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#feature_from_action/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Return the value associated with the key.</p>
+<p>The arguments are the response from either <a href="#action/2"><code class="inline">action/2</code></a> or <a href="#action!/2"><code class="inline">action!/2</code></a>
+and the key of interest.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="kernels/1">
+    <span class="signature"><strong>kernels(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#kernels/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request a list of kernels associated with the droplet.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="kernels!/1">
+    <span class="signature"><strong>kernels!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#kernels!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#kernels/1"><code class="inline">kernels/1</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="migrate_droplet/1">
+    <span class="signature"><strong>migrate_droplet(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#migrate_droplet/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>migrate_droplet</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="migrate_droplet!/1">
+    <span class="signature"><strong>migrate_droplet!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#migrate_droplet!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">migrate_droplet</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="new/1">
+    <span class="signature"><strong>new(props)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request a new droplet.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="new!/1">
+    <span class="signature"><strong>new!(props)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#new!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#new/1"><code class="inline">new/1</code></a> but returns only the response body.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="password_reset/1">
+    <span class="signature"><strong>password_reset(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#password_reset/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>password_reset</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="password_reset!/1">
+    <span class="signature"><strong>password_reset!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#password_reset!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">password_reset</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="power_cycle/1">
+    <span class="signature"><strong>power_cycle(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#power_cycle/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>power_cycle</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="power_cycle!/1">
+    <span class="signature"><strong>power_cycle!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#power_cycle!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">power_cycle</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="power_off/1">
+    <span class="signature"><strong>power_off(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#power_off/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>power_off</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="power_off!/1">
+    <span class="signature"><strong>power_off!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#power_off!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">power_off</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="power_on/1">
+    <span class="signature"><strong>power_on(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#power_on/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>power_on</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="power_on!/1">
+    <span class="signature"><strong>power_on!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#power_on!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">power_on</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="reboot/1">
+    <span class="signature"><strong>reboot(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reboot/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>reboot</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="reboot!/1">
+    <span class="signature"><strong>reboot!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#reboot!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">reboot</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="rebuild/2">
+    <span class="signature"><strong>rebuild(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#rebuild/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>rebuild</strong> on the droplet.  </p>
+<p>Both the droplet id and the image must be provided.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="rebuild!/2">
+    <span class="signature"><strong>rebuild!(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#rebuild!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#rebuild/2"><code class="inline">rebuild/2</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="rename/2">
+    <span class="signature"><strong>rename(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#rename/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>rename</strong> on the droplet.  </p>
+<p>Both the droplet id and the name must be provided.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="rename!/2">
+    <span class="signature"><strong>rename!(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#rename!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#rename/2"><code class="inline">rename/2</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="resize/2">
+    <span class="signature"><strong>resize(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#resize/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>resize</strong> on the droplet.  </p>
+<p>Both the droplet id and the size must be provided.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="resize!/2">
+    <span class="signature"><strong>resize!(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#resize!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#resize/2"><code class="inline">resize/2</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="restore/2">
+    <span class="signature"><strong>restore(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#restore/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>restore</strong> on the droplet.  </p>
+<p>Both the droplet id and the image must be provided.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="restore!/2">
+    <span class="signature"><strong>restore!(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#restore!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#restore/2"><code class="inline">restore/2</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="shutdown/1">
+    <span class="signature"><strong>shutdown(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#shutdown/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>shutdown</strong> on the droplet.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="shutdown!/1">
+    <span class="signature"><strong>shutdown!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#shutdown!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">shutdown</code> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="snapshot/2">
+    <span class="signature"><strong>snapshot(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#snapshot/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Take the action <strong>snapshot</strong> on the droplet.  </p>
+<p>Both the droplet id and the name must be provided.</p>
+<p>An action object will be returned.  When that object no longer
+has a status of “in-progress” an event will be posted to the
+event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="snapshot!/2">
+    <span class="signature"><strong>snapshot!(id, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#snapshot!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#snapshot/2"><code class="inline">snapshot/2</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="snapshots/1">
+    <span class="signature"><strong>snapshots(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#snapshots/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request a list of snapshots associated with the droplet.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="snapshots!/1">
+    <span class="signature"><strong>snapshots!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#snapshots!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#snapshots/1"><code class="inline">snapshots/1</code></a> but returns the response body only.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="upgrades/0">
+    <span class="signature"><strong>upgrades()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#upgrades/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request a list of droplet upgrades</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="upgrades!/0">
+    <span class="signature"><strong>upgrades!()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#upgrades!/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <code class="inline">upgrades/1</code> but return only the response body.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="wait_for_action/2">
+    <span class="signature"><strong>wait_for_action(droplet_id, action_id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#wait_for_action/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Occasionally polls until an action object has a status of something
+other than “in-progress”.  The poll interval is determined by the
+value returned by <a href="DigOc.html#wait_time/0"><code class="inline">DigOc.wait_time/0</code></a>.  When the status changes a
+notification, described above, is posted to the event manager.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="wait_for_status/2">
+    <span class="signature"><strong>wait_for_status(droplet_id, desired_status)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#wait_for_status/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Poll until the status associated with a droplet matches the status
+provided.  When that is achieved, a notification is sent to the
+event manager with the payload</p>
+<pre><code>{:achived_status, droplet_id, desired_status}</code></pre>
+
+  </section>
+  
+</section>
+
+        </section>
+      
+
+      
+
+      
+    </section>
+  </body>
+</html>
