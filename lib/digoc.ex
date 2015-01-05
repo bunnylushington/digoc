@@ -209,34 +209,53 @@ defmodule DigOc do
   def image!(:delete, id), do: image(:delete, id) |> response
   def image!(:update, id, name), do: image(:update, id, name) |> response
 
+
   # ------------------------- SSH KEYS.
+  @doc """
+  Requests a list of keys associated with the account.
+  """
   def keys, do: req("account/keys")
+
+
+  @doc """
+  Like `keys/0` but returns only the response body.
+  """
   def keys!, do: keys |> response
 
+
+  @doc """
+  Requests a specific key (by id or fingerprint).
+  """
   def key(id), do: req("account/keys/#{ id }")
+
+
+  @doc """
+  Like `key/1` but returns only the response body.
+  """
   def key!(id), do: key(id) |> response
-
-  def key(:new, name, public_key) do
-    postreq("account/keys", %{ name: name, public_key: public_key})
-  end
-
-  def key(:update, id, new_name) do
-    putreq("account/keys/#{ id }", %{ name: new_name })
-  end
-  def key!(:update, id, new_name), do: key(:update, id, new_name) |> response
-
-  def key!(:new, name, public_key), do: key(:new, name, public_key) |> response
-
-  def key(:destroy, id), do: delreq("account/keys/#{ id }")
-  def key!(:destroy, id), do: key(:destroy, id) |> response
 
 
   # ------------------------- REGIONS.
+  @doc """
+  Requests a list of regions.
+  """
   def regions, do: req("regions")
+
+
+  @doc """
+  Like `regions/0` but only returns the response body.
+  """
   def regions!, do: regions |> response
 
   # ------------------------- SIZES.
+  @doc """
+  Requests a list of droplet sizes.
+  """
   def sizes, do: req("sizes")
+
+  @doc """
+  Like `sizes/0` but only returns the response body.
+  """
   def sizes!, do: sizes |> response
 
 end
