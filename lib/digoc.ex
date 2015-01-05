@@ -1,9 +1,6 @@
 defmodule DigOc do
 
-  import DigOc.Request, only: [req: 1,    
-                               postreq: 2,
-                               putreq: 2, 
-                               delreq: 1 ]
+  import DigOc.Request, only: [req: 1, postreq: 2, putreq: 2, delreq: 1 ]
 
   @endpoint "https://api.digitalocean.com/v2/"
   @token_varible "DIGOC_API2_TOKEN"
@@ -27,13 +24,28 @@ defmodule DigOc do
   """
   def event_manager, do: @event_manager
 
-  defp response({_, body, _}), do: body
+  @doc """
+  Return the time (in ms) to wait when polling for actions to complete.
+  """
+  def wait_time, do: @wait_time_ms
+
+  @doc """
+  Parse the result body out of an HTTPoison response tuple.
+  """
+  def response({_, body, _}), do: body
   
   @doc """
   Given a result or a result body, return the droplet ID.
   """
-  def id_from_result(res) when is_map(res), do: res.droplet.id
-  def id_from_result({_, body, _}), do: body.droplet.id
+  def id_from_result(res), do: feature_from_result(res, :id)
+
+  @doc """
+  Given a result or result body and a droplet map key, return 
+  the value associated with that key.
+  """
+  def feature_from_result(res, f) when is_map(res), do: res.droplet[f]
+  def feature_from_result({_, body, _}, f), do: body.droplet[f]
+
 
   # ------------------------- ACCOUNT.
   def account, do: req("account")
@@ -81,7 +93,7 @@ defmodule DigOc do
       GenEvent.sync_notify(event_manager, 
                            {:achieved_status, droplet_id, desired_status})
     else
-      :timer.sleep(@wait_time_ms)
+      :timer.sleep(wait_time)
       wait_for_status(droplet_id, desired_status)
     end
   end

@@ -15,6 +15,10 @@ defmodule DigOcTest do
     assert is_atom(DigOc.event_manager)
   end
 
+  test "wait time" do
+    assert is_integer(DigOc.wait_time)
+  end
+
   test "account" do
     {:ok, data, headers} = DigOc.account
     assert is_map(data)

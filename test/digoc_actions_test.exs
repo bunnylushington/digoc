@@ -1,6 +1,9 @@
 defmodule DigOcActionsTest do
   use ExUnit.Case
 
+  @timeout 60000
+  @tag timeout: 60000
+  
   defp info do
     %{ name: "test-#{ System.get_pid }",
        region: "nyc3",
@@ -27,11 +30,24 @@ defmodule DigOcActionsTest do
   end
 
   test "droplet actions" do
+
+    # -- create.
+    IO.puts "Creating new droplet."
     res = DigOc.droplet!(:new, info)
     id = res.droplet.id
     assert is_integer(id)
-    assert_receive {:achieved_status, id, :active}, 60000
-    
+    assert_receive {:achieved_status, id, :active}, @timeout
+ 
+    # -- powercycle.
+    IO.puts "Powercycling droplet."
+    res = DigOc.Droplet.power_cycle!(id)
+    action_id = res.action.id
+    assert res.action.resource_id == id
+    assert res.action.type == "power_cycle"
+    assert_receive {:action_finished, id, action_id, _}, @timeout
+
+    # -- destroy.
+    IO.puts "Destroying droplet."
     {_, "", headers} = DigOc.droplet(:delete, id)
     assert headers["Status"] == "204 No Content"
   end
