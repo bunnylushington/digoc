@@ -45,11 +45,17 @@ defmodule DigOc.Droplet do
     res
   end    
 
-  defp action(droplet_id, action_id) do
+  @doc """
+  Request the action object associated with the droplet_id and action_id.
+  """
+  def action(droplet_id, action_id) do
     req("droplets/#{ droplet_id }/actions/#{ action_id }")
   end
 
-  defp action!(droplet_id, action_id) do
+  @doc """
+  Like `action/2` but return only the response body.
+  """
+  def action!(droplet_id, action_id) do
     action(droplet_id, action_id) |> response
   end
 
@@ -71,8 +77,13 @@ defmodule DigOc.Droplet do
     end
   end
 
-  
-  def feature_from_action(res, f) when is_map(res), do: res.action[f]
-  def feature_from_action({_, body, _}, f), do: body.action[f]
+  @doc """
+  Return the value associated with the key.
+
+  The arguments are the response from either `action/2` or `action!/2`
+  and the key of interest.
+  """
+  def feature_from_action(res, key) when is_map(res), do: res.action[key]
+  def feature_from_action({_, body, _}, key), do: body.action[key]
 
 end
