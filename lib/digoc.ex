@@ -10,42 +10,101 @@ defmodule DigOc do
 
   @doc """
   Return the endpoint URL as a string.
+
+  Example:
+    iex> DigOc.endpoint
+    "https://api.digitalocean.com/v2/"
+
   """
   def endpoint, do: @endpoint
 
+
   @doc """
-  Return the D.O. API token as a string.  The token should be the value of 
+  Return the API token as a string.  The token should be the value of 
   the environment variable DIGOC_API2_TOKEN.
   """
   def api_token, do: System.get_env(@token_varible)
 
+
   @doc """
   Return the name of the event manager.
+
+  Example:
+    iex> DigOc.event_manager
+    DigOc.EM
+
   """
   def event_manager, do: @event_manager
 
+
   @doc """
   Return the time (in ms) to wait when polling for actions to complete.
+  
+  Example: 
+    iex> DigOc.wait_time
+    5000
   """
   def wait_time, do: @wait_time_ms
 
+
   @doc """
   Parse the result body out of an HTTPoison response tuple.
+
+  Example:
+    iex> res = {:ok, %{ body: "contents" }, %{ result: 200 } }
+    iex> DigOc.response(res)
+    %{ body: "contents" }
   """
   def response({_, body, _}), do: body
   
+
   @doc """
   Given a result or a result body, return the droplet ID.
+
+  Example: 
+    iex> res = {:ok, %{ droplet: %{ id: 123, name: "example" } }, %{}}
+    iex> DigOc.id_from_result(res)
+    123
   """
   def id_from_result(res), do: feature_from_result(res, :id)
+
 
   @doc """
   Given a result or result body and a droplet map key, return 
   the value associated with that key.
+
+  Example:
+    iex> res = {:ok, %{ droplet: %{ id: 123, name: "example" } }, %{}}
+    iex> DigOc.feature_from_result(res, :id)
+    123
+    iex> DigOc.feature_from_result(DigOc.response(res), :name)
+    "example"
   """
   def feature_from_result(res, f) when is_map(res), do: res.droplet[f]
   def feature_from_result({_, body, _}, f), do: body.droplet[f]
 
+
+  @doc """
+  Make a predicate name from the supplied atom.  
+
+  Example:
+    iex> DigOc.predicate(:next)
+    :next?
+  """
+  # We use the codepoint for ? here because emacs's elixir mode gets a
+  # little confused with the simple question mark.
+  def predicate(atom), do: String.to_atom(to_string(atom) <> "\x{3F}")
+
+
+  @doc """
+  Make a bang-name from the supplied atom.  
+
+  Example:
+    iex> DigOc.bang(:next)
+    :next!
+  """
+  def bang(atom), do: String.to_atom(to_string(atom) <> "!")
+  
 
   # ------------------------- ACCOUNT.
   def account, do: req("account")
@@ -147,37 +206,5 @@ defmodule DigOc do
   # ------------------------- SIZES.
   def sizes, do: req("sizes")
   def sizes!, do: sizes |> response
-
-  # ------------------------- PAGINATION.
-  def has_next?(data),  do: has_page?(data, :next)
-  def has_prev?(data),  do: has_page?(data, :prev)
-  def has_first?(data), do: has_page?(data, :first)
-  def has_last?(data),  do: has_page?(data, :last)
-  
-  def next_page(data),     do: get_page(data, :next)
-  def prev_page(data),     do: get_page(data, :prev)
-  def previous_page(data), do: get_page(data, :prev)
-  def last_page(data),     do: get_page(data, :last)
-  def first_page(data),    do: get_page(data, :first)
-
-  def next_page!(data),     do: get_page!(data, :next)
-  def prev_page!(data),     do: get_page!(data, :prev)
-  def previous_page!(data), do: get_page!(data, :prev)
-  def last_page!(data),     do: get_page!(data, :last)
-  def first_page!(data),    do: get_page!(data, :first)
-
-  defp has_page?(data, page), do: Dict.has_key?(data.links.pages, page)
-
-  defp get_page(data, page), do: _get_page(data, page, &req/1)
-  defp get_page!(data, page), do: get_page(data, page) |> response
-
-  defp _get_page(data, page, req_macro) do
-    if has_page?(data, page) do
-      req_macro.(Dict.get(data.links.pages, page))
-    else
-      raise("No bookmark for #{ page } page.")
-    end
-  end    
-    
 
 end
