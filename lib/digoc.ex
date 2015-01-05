@@ -174,55 +174,24 @@ defmodule DigOc do
   """
   def droplets, do: req("droplets")
 
+
   @doc """
   Like `droplets/0` but returns response body only.
   """
   def droplets!, do: droplets |> response
+
 
   @doc """
   Requests a particular droplet object by id.
   """
   def droplet(id), do: req("droplets/#{ id }")
 
+
   @doc """
   Like `droplet/1` but returns response body only.
   """
   def droplet!(id), do: droplet(id) |> response
 
-
-
-
-  def droplet(:kernels, id), do: req("droplets/#{ id }/kernels")
-  def droplet(:snapshots, id), do: req("droplets/#{ id }/snapshots")
-  def droplet(:backups, id), do: req("droplets/#{ id }/backups")
-  def droplet(:actions, id), do: req("droplets/#{ id }/actions")
-  def droplet(:new, props) do
-    res = postreq("droplets", props)
-    droplet_id = id_from_result(res)
-    spawn(DigOc, :wait_for_status, [droplet_id, :active])
-    res
-  end
-  def droplet(:delete, id), do: delreq("droplets/#{ id }")
-
-  def droplet!(:kernels, id), do: droplet(:kernels, id) |> response
-  def droplet!(:snapshots, id), do: droplet(:snapshots, id) |> response
-  def droplet!(:backups, id), do: droplet(:backups, id) |> response
-  def droplet!(:actions, id), do: droplet(:actions, id) |> response
-  def droplet!(:new, props), do: droplet(:new, props) |> response
-  def droplet!(:delete, id), do: droplet(:delete, id) |> response
-
-  def upgrades, do: req("droplet_upgrades")
-  def upgrades!, do: upgrades |> response
-
-  def wait_for_status(droplet_id, desired_status) do
-    if droplet!(droplet_id).droplet.status == to_string(desired_status) do
-      GenEvent.sync_notify(event_manager, 
-                           {:achieved_status, droplet_id, desired_status})
-    else
-      :timer.sleep(wait_time)
-      wait_for_status(droplet_id, desired_status)
-    end
-  end
 
   # ------------------------- IMAGES.
   def images(type \\ nil) do

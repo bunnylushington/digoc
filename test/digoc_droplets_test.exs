@@ -45,7 +45,7 @@ defmodule DigOcDropletsTest do
   end
 
   test "droplet upgrades" do
-    assert is_list(DigOc.upgrades!)
+    assert is_list(DigOc.Droplet.upgrades!)
   end
 
 end

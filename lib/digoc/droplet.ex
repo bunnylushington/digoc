@@ -47,10 +47,12 @@ defmodule DigOc.Droplet do
   """
   def delete(id), do: delreq("droplets/#{ id }")
 
+
   @doc """
   Like `delete/1` but returns only the respose body.
   """
   def delete!(id), do: delete(id) |> response
+
 
   @doc """
   Request a new droplet.
@@ -58,22 +60,28 @@ defmodule DigOc.Droplet do
   def new(props) do
     res = postreq("droplets", props)
     droplet_id = DigOc.id_from_result(res)
-    spawn(DigOc, :wait_for_status, [droplet_id, :active])
+    spawn(__MODULE__, :wait_for_status, [droplet_id, :active])
     res
   end
+
 
   @doc """
   Like `new/1` but returns only the response body.
   """
   def new!(props), do: new(props) |> response
 
-  defp task(id, action, extra \\ %{}) do
-    map = Map.merge( %{ type: action }, extra )
-    res = postreq("droplets/#{ id }/actions", map) 
-    action_id = feature_from_action(res, :id)
-    spawn(__MODULE__, :wait_for_action, [id, action_id])
-    res
-  end    
+
+  @doc """
+  Request a list of droplet upgrades
+  """
+  def upgrades, do: req("droplet_upgrades")
+  
+
+  @doc """
+  Like `upgrades/1` but return only the response body.
+  """
+  def upgrades!, do: upgrades |> response
+
 
   @doc """
   Request the action object associated with the droplet_id and action_id.
@@ -81,6 +89,7 @@ defmodule DigOc.Droplet do
   def action(droplet_id, action_id) do
     req("droplets/#{ droplet_id }/actions/#{ action_id }")
   end
+
 
   @doc """
   Like `action/2` but return only the response body.
@@ -107,6 +116,24 @@ defmodule DigOc.Droplet do
     end
   end
 
+  @doc """ 
+  Poll until the status associated with a droplet matches the status
+  provided.  When that is achieved, a notification is sent to the
+  event manager with the payload
+
+      {:achived_status, droplet_id, desired_status}
+  """
+  def wait_for_status(droplet_id, desired_status) do
+    if DigOc.droplet!(droplet_id).droplet.status == to_string(desired_status) do
+      GenEvent.sync_notify(event_manager, 
+                           {:achieved_status, droplet_id, desired_status})
+    else
+      :timer.sleep(wait_time)
+      wait_for_status(droplet_id, desired_status)
+    end
+  end
+
+
   @doc """
   Return the value associated with the key.
 
@@ -115,5 +142,14 @@ defmodule DigOc.Droplet do
   """
   def feature_from_action(res, key) when is_map(res), do: res.action[key]
   def feature_from_action({_, body, _}, key), do: body.action[key]
+
+
+  defp task(id, action, extra \\ %{}) do
+    map = Map.merge( %{ type: action }, extra )
+    res = postreq("droplets/#{ id }/actions", map) 
+    action_id = feature_from_action(res, :id)
+    spawn(__MODULE__, :wait_for_action, [id, action_id])
+    res
+  end    
 
 end

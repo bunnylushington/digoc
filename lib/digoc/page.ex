@@ -18,7 +18,6 @@ defmodule DigOc.Page do
   defp has_page?(data, page), do: Dict.has_key?(data.links.pages, page)
   
   defp get_page(data, page) do
-    my_predicate = DigOc.predicate(page)
     if apply(__MODULE__, DigOc.predicate(page), [data]) do
       req(Dict.fetch!(data.links.pages, page))
     else
