@@ -38,7 +38,7 @@ defmodule DigOcActionsTest do
     assert is_integer(id)
     assert_receive {:achieved_status, id, :active}, @timeout
  
-    # -- powercycle.
+    # -- test make_action macro with one arg
     IO.puts "Powercycling droplet."
     res = DigOc.Droplet.power_cycle!(id)
     action_id = res.action.id
@@ -46,12 +46,12 @@ defmodule DigOcActionsTest do
     assert res.action.type == "power_cycle"
     assert_receive {:action_finished, id, action_id, _}, @timeout
 
-    # -- reboot.
-    IO.puts "Rebooting droplet."
-    res = DigOc.Droplet.reboot!(id)
+    # -- test make_action macro with two args
+    IO.puts "Renaming droplet."
+    res = DigOc.Droplet.rename!(id, "FancyName")
     action_id = res.action.id
     assert res.action.resource_id == id
-    assert res.action.type == "reboot"
+    assert res.action.type == "rename"
     assert_receive {:action_finished, id, action_id, _}, @timeout
 
     # -- destroy.

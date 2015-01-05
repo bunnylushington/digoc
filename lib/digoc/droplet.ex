@@ -1,16 +1,32 @@
 defmodule DigOc.Droplet do
 
   import DigOc, only: [response: 1, event_manager: 0, wait_time: 0]
-  import DigOc.Request, only: [req: 1, postreq: 2, putreq: 2, delreq: 1]
+  import DigOc.Request, only: [req: 1, postreq: 2]
+  require DigOc.Macros.Droplet, as: M
 
-  def power_cycle(id), do: task(id, :power_cycle)
-  def power_cycle!(id), do: power_cycle(id) |> response
+  # -- one arg actions
+  M.make_action(:power_cycle)
+  M.make_action(:reboot)
+  M.make_action(:shutdown)
+  M.make_action(:power_off) 
+  M.make_action(:power_on) 
+  M.make_action(:password_reset) 
+  M.make_action(:enable_ipv6) 
+  M.make_action(:enable_private_networking) 
+  M.make_action(:migrate_droplet) 
+  M.make_action(:disable_backups) 
 
-  def reboot(id), do: task(id, :reboot)
-  def reboot!(id), do: reboot(id) |> response
+  # -- two arg actions
+  M.make_action(:restore, :image) 
+  M.make_action(:resize, :size) 
+  M.make_action(:rebuild, :image) 
+  M.make_action(:rename, :name) 
+  M.make_action(:change_kernel, :kernel) 
+  M.make_action(:snapshot, :name) 
 
-  defp task(id, action) do
-    res = postreq("droplets/#{ id }/actions", %{ type: action }) 
+  defp task(id, action, extra \\ %{}) do
+    map = Map.merge( %{ type: action }, extra )
+    res = postreq("droplets/#{ id }/actions", map) 
     action_id = feature_from_action(res, :id)
     spawn(__MODULE__, :wait_for_action, [id, action_id])
     res
