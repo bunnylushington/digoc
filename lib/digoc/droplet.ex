@@ -4,9 +4,22 @@ defmodule DigOc.Droplet do
   import DigOc.Request, only: [req: 1, postreq: 2]
   require DigOc.Macros.Droplet, as: M
 
-  # -- Actions send a POST and get an action obj back.  These all
-  # -- register with wait_for_action/2 which posts an event when that
-  # -- action object no longer has the status "in-progress."
+  @moduledoc """ 
+
+  For each of the actions (power_cycle, reboot, &c.) an action record
+  is returned.  When that happens, an async polling loop is created
+  that monitors that record for the status to change from
+  "in-progress."  When it does, a message is posted to the event
+  manager.  That message has the payload:
+
+      { :action_finished, droplet_id, action_id, action_record }
+
+  Handlers may be attached to the event manager to take appropriate
+  actions upon completion.  Note that the EM's name can be disovered
+  with `DigOc.event_manager/0`.
+
+  """
+
   M.make_action(:power_cycle)
   M.make_action(:reboot)
   M.make_action(:shutdown)
@@ -32,14 +45,21 @@ defmodule DigOc.Droplet do
     res
   end    
 
-  def action(droplet_id, action_id) do
+  defp action(droplet_id, action_id) do
     req("droplets/#{ droplet_id }/actions/#{ action_id }")
   end
 
-  def action!(droplet_id, action_id) do
+  defp action!(droplet_id, action_id) do
     action(droplet_id, action_id) |> response
   end
 
+
+  @doc """
+  Occasionally polls until an action object has a status of something
+  other than "in-progress".  The poll interval is determined by the
+  value returned by `DigOc.wait_time/0`.  When the status changes a
+  notification, described above, is posted to the event manager.
+  """
   def wait_for_action(droplet_id, action_id) do
     action = action!(droplet_id, action_id)
     if action.action.status !== "in-progress" do
@@ -51,6 +71,7 @@ defmodule DigOc.Droplet do
     end
   end
 
+  
   def feature_from_action(res, f) when is_map(res), do: res.action[f]
   def feature_from_action({_, body, _}, f), do: body.action[f]
 
