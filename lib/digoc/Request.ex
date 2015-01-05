@@ -39,8 +39,8 @@ defmodule DigOc.Request do
   end
 
   def req(path) do
-      {:ok, response} = DigOc.Request.get(path)
-      {:ok, response.body, response.headers}
+    {:ok, response} = DigOc.Request.get(path)
+    {:ok, response.body, response.headers}
   end
 
 end

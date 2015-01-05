@@ -4,7 +4,9 @@ defmodule DigOc.Droplet do
   import DigOc.Request, only: [req: 1, postreq: 2]
   require DigOc.Macros.Droplet, as: M
 
-  # -- one arg actions
+  # -- Actions send a POST and get an action obj back.  These all
+  # -- register with wait_for_action/2 which posts an event when that
+  # -- action object no longer has the status "in-progress."
   M.make_action(:power_cycle)
   M.make_action(:reboot)
   M.make_action(:shutdown)
@@ -15,8 +17,6 @@ defmodule DigOc.Droplet do
   M.make_action(:enable_private_networking) 
   M.make_action(:migrate_droplet) 
   M.make_action(:disable_backups) 
-
-  # -- two arg actions
   M.make_action(:restore, :image) 
   M.make_action(:resize, :size) 
   M.make_action(:rebuild, :image) 
