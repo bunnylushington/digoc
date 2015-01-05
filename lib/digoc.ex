@@ -9,40 +9,47 @@ defmodule DigOc do
   @event_manager DigOc.EM
 
   @doc """
-  Return the endpoint URL as a string.
+  The endpoint URL as a string.
 
-  Example:
-    iex> DigOc.endpoint
-    "https://api.digitalocean.com/v2/"
+  ## Examples
+
+      iex> DigOc.endpoint
+      "https://api.digitalocean.com/v2/"
 
   """
   def endpoint, do: @endpoint
 
 
   @doc """
-  Return the API token as a string.  The token should be the value of 
-  the environment variable DIGOC_API2_TOKEN.
+  The API token as a string.  
+
+  The token is the value associated with the environment variable
+  `DIGOC_API2_TOKEN`.
+
   """
   def api_token, do: System.get_env(@token_varible)
 
 
   @doc """
-  Return the name of the event manager.
+  The name of the event manager.
 
-  Example:
-    iex> DigOc.event_manager
-    DigOc.EM
+  ## Examples
+
+      iex> DigOc.event_manager
+      DigOc.EM
 
   """
   def event_manager, do: @event_manager
 
 
   @doc """
-  Return the time (in ms) to wait when polling for actions to complete.
+  The time (in ms) to wait when polling for actions to complete.
   
-  Example: 
-    iex> DigOc.wait_time
-    5000
+  ## Examples
+
+      iex> DigOc.wait_time
+      5000
+
   """
   def wait_time, do: @wait_time_ms
 
@@ -50,10 +57,12 @@ defmodule DigOc do
   @doc """
   Parse the result body out of an HTTPoison response tuple.
 
-  Example:
-    iex> res = {:ok, %{ body: "contents" }, %{ result: 200 } }
-    iex> DigOc.response(res)
-    %{ body: "contents" }
+  ## Examples
+
+      iex> res = {:ok, %{ body: "contents" }, %{ result: 200 } }
+      iex> DigOc.response(res)
+      %{ body: "contents" }
+
   """
   def response({_, body, _}), do: body
   
@@ -61,10 +70,12 @@ defmodule DigOc do
   @doc """
   Given a result or a result body, return the droplet ID.
 
-  Example: 
-    iex> res = {:ok, %{ droplet: %{ id: 123, name: "example" } }, %{}}
-    iex> DigOc.id_from_result(res)
-    123
+  ## Examples
+
+      iex> res = {:ok, %{ droplet: %{ id: 123, name: "example" } }, %{}}
+      iex> DigOc.id_from_result(res)
+      123
+
   """
   def id_from_result(res), do: feature_from_result(res, :id)
 
@@ -73,12 +84,14 @@ defmodule DigOc do
   Given a result or result body and a droplet map key, return 
   the value associated with that key.
 
-  Example:
-    iex> res = {:ok, %{ droplet: %{ id: 123, name: "example" } }, %{}}
-    iex> DigOc.feature_from_result(res, :id)
-    123
-    iex> DigOc.feature_from_result(DigOc.response(res), :name)
-    "example"
+  ## Examples
+
+      iex> res = {:ok, %{ droplet: %{ id: 123, name: "example" } }, %{}}
+      iex> DigOc.feature_from_result(res, :id)
+      123
+      iex> DigOc.feature_from_result(DigOc.response(res), :name)
+      "example"
+
   """
   def feature_from_result(res, f) when is_map(res), do: res.droplet[f]
   def feature_from_result({_, body, _}, f), do: body.droplet[f]
@@ -87,9 +100,11 @@ defmodule DigOc do
   @doc """
   Make a predicate name from the supplied atom.  
 
-  Example:
-    iex> DigOc.predicate(:next)
-    :next?
+  ## Examples
+
+      iex> DigOc.predicate(:next)
+      :next?
+
   """
   # We use the codepoint for ? here because emacs's elixir mode gets a
   # little confused with the simple question mark.
@@ -99,9 +114,10 @@ defmodule DigOc do
   @doc """
   Make a bang-name from the supplied atom.  
 
-  Example:
-    iex> DigOc.bang(:next)
-    :next!
+  ## Examples
+      iex> DigOc.bang(:next)
+      :next!
+
   """
   def bang(atom), do: String.to_atom(to_string(atom) <> "!")
   
