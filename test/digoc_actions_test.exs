@@ -32,28 +32,24 @@ defmodule DigOcActionsTest do
   test "droplet actions" do
 
     # -- create.
-    IO.puts "Creating new droplet."
     res = DigOc.Droplet.new!(info)
     id = res.droplet.id
     assert is_integer(id)
     assert_receive {:achieved_status, id, :active}, @timeout
  
     # -- test make_action macro with one arg
-    IO.puts "Powercycling droplet."
     res = DigOc.Droplet.power_cycle!(id)
     assert res.action.resource_id == id
     assert res.action.type == "power_cycle"
     assert_receive {:action_finished, id, _, _}, @timeout
 
     # -- test make_action macro with two args
-    IO.puts "Renaming droplet."
     res = DigOc.Droplet.rename!(id, "FancyName")
     assert res.action.resource_id == id
     assert res.action.type == "rename"
     assert_receive {:action_finished, id, _, _}, @timeout
 
     # -- destroy.
-    IO.puts "Destroying droplet."
     {_, "", headers} = DigOc.Droplet.delete(id)
     assert headers["Status"] == "204 No Content"
   end

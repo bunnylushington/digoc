@@ -11,7 +11,7 @@ defmodule DigOc.Supervisor do
     opts = [strategy: :one_for_one, name: DigOc.Supervisor]
     supervisor_result = Supervisor.start_link(children, opts)
 
-    if Mix.env !== :prod do
+    if Mix.env == :dev do
       GenEvent.add_handler DigOc.event_manager, DigOc.EM.Monitor, []
     end
     
