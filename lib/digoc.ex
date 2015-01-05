@@ -8,6 +8,14 @@ defmodule DigOc do
   @wait_time_ms 5000
   @event_manager DigOc.EM
 
+  @moduledoc """ 
+
+  This is an Elixir client for the Digital Ocean API, verion 2.
+  Details about the API can be found on [Digital Ocean's documentation
+  site.](https://developers.digitalocean.com/)
+
+  """
+
   @doc """
   The endpoint URL as a string.
 
@@ -123,23 +131,66 @@ defmodule DigOc do
   
 
   # ------------------------- ACCOUNT.
+  @doc """
+  Requests information about the registered account.
+  """
   def account, do: req("account")
+
+  @doc """ 
+  Like `account/0` but returns response body only.
+  """
   def account!, do: account |> response
 
 
   # ------------------------- ACTIONS.
+  @doc """
+  Requests a list of actions, i.e., records of events.
+
+  [Documentation.](https://developers.digitalocean.com/#list-all-actions)
+  """
   def actions(per_page \\ @per_page), do: req("actions?per_page=#{ per_page }")
+
+
+  @doc """
+  Like `actions/1` but returns response body only.
+  """
   def actions!(per_page \\ @per_page), do: actions(per_page) |> response
 
+
+  @doc """
+  Requests a particular action record by id.  
+  """
   def action(id), do: req("actions/#{ id }")
+
+
+  @doc """
+  Like `action/1` but returns response body only.
+  """
   def action!(id), do: action(id) |> response
 
   # ------------------------- DROPLETS.
+  @doc """
+  Requests a list of all droplets.
+  """
   def droplets, do: req("droplets")
+
+  @doc """
+  Like `droplets/0` but returns response body only.
+  """
   def droplets!, do: droplets |> response
 
+  @doc """
+  Requests a particular droplet object by id.
+  """
   def droplet(id), do: req("droplets/#{ id }")
+
+  @doc """
+  Like `droplet/1` but returns response body only.
+  """
   def droplet!(id), do: droplet(id) |> response
+
+
+
 
   def droplet(:kernels, id), do: req("droplets/#{ id }/kernels")
   def droplet(:snapshots, id), do: req("droplets/#{ id }/snapshots")
@@ -171,10 +222,6 @@ defmodule DigOc do
       :timer.sleep(wait_time)
       wait_for_status(droplet_id, desired_status)
     end
-  end
-
-  def pretty_print(droplet_list) do
-    DigOc.Pretty.droplets(droplet_list)
   end
 
   # ------------------------- IMAGES.
