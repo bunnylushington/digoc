@@ -46,6 +46,14 @@ defmodule DigOcActionsTest do
     assert res.action.type == "power_cycle"
     assert_receive {:action_finished, id, action_id, _}, @timeout
 
+    # -- reboot.
+    IO.puts "Rebooting droplet."
+    res = DigOc.Droplet.reboot!(id)
+    action_id = res.action.id
+    assert res.action.resource_id == id
+    assert res.action.type == "reboot"
+    assert_receive {:action_finished, id, action_id, _}, @timeout
+
     # -- destroy.
     IO.puts "Destroying droplet."
     {_, "", headers} = DigOc.droplet(:delete, id)

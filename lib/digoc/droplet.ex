@@ -3,14 +3,18 @@ defmodule DigOc.Droplet do
   import DigOc, only: [response: 1, event_manager: 0, wait_time: 0]
   import DigOc.Request, only: [req: 1, postreq: 2, putreq: 2, delreq: 1]
 
-  def power_cycle(id) do
-    res = postreq("droplets/#{ id }/actions", %{ type: :power_cycle }) 
+  def power_cycle(id), do: task(id, :power_cycle)
+  def power_cycle!(id), do: power_cycle(id) |> response
+
+  def reboot(id), do: task(id, :reboot)
+  def reboot!(id), do: reboot(id) |> response
+
+  defp task(id, action) do
+    res = postreq("droplets/#{ id }/actions", %{ type: action }) 
     action_id = feature_from_action(res, :id)
     spawn(__MODULE__, :wait_for_action, [id, action_id])
     res
-  end
-
-  def power_cycle!(id), do: power_cycle(id) |> response
+  end    
 
   def action(droplet_id, action_id) do
     req("droplets/#{ droplet_id }/actions/#{ action_id }")
