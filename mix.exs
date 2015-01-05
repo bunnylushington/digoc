@@ -13,17 +13,10 @@ defmodule DigOc.Mixfile do
      mod: { DigOc.Supervisor, []}]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type `mix help deps` for more examples and options
   defp deps do
     [ 
+     {:earmark, "~> 0.1", only: :dev},
+     {:ex_doc, "~> 0.6", only: :dev},
      {:poison, "~> 1.3.0"},
      {:httpoison, "~> 0.5"}
     ]
