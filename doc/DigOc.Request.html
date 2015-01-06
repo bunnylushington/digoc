@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DigOc.Request</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <section id="content">
+      <div class="breadcrumbs">digoc v0.1.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="DigOc.html">DigOc</a> &rarr; <a href="DigOc.Request.html">Request</a></div>
+      <h1>
+        DigOc.Request
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#types_details">Types</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+
+      
+        <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L1" class="view_source">Source</a>
+      
+
+      
+        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#delete!/3">delete!(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete/3">delete(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delreq/1">delreq(path)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get!/3">get!(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#get/3">get(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#head!/3">head!(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#head/3">head(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#options!/3">options!(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#options/3">options(url, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#patch!/4">patch!(url, body, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#patch/4">patch(url, body, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#post!/4">post!(url, body, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#post/4">post(url, body, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#postreq/2">postreq(path, body)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#process_request_headers/1">process_request_headers(headers)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#process_response_body/1">process_response_body(body)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#process_url/1">process_url(url)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put!/4">put!(url, body, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#put/4">put(url, body, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#putreq/2">putreq(path, body)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#req/1">req(path)</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#request!/5">request!(method, url, body \\ &quot;&quot;, headers \\ [], options \\ [])</a></td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#request/5">request(method, url, body \\ &quot;&quot;, headers \\ [], options \\ [])</a></td>
+  
+    <td class="summary_synopsis"><p>Sends an HTTP request.
+Args:</p>
+<ul>
+<li>method - HTTP method, atom (:get, :head, :post, :put, :delete, etc.)
+</li>
+<li>url - URL, binary string or char list
+</li>
+<li>body - request body, binary string or char list
+</li>
+<li>headers - HTTP headers, orddict (eg. [{:Accept, "application/json"}])
+</li>
+<li>options - orddict of options
+Options:
+</li>
+<li>timeout - timeout in ms, integer
+</li>
+<li>stream_to - process id to stream the response
+</li>
+</ul>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#start/0">start()</a></td>
+  
+    <td class="summary_synopsis"><p>Start httpoison and dependencies</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#transformer/1">transformer(target)</a></td>
+  
+</tr>
+
+        </table>
+      
+
+      
+        <section id="types_details" class="details_list">
+          <h2>Types <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></h2>
+          <div class="type_detail">
+  <p class="typespec" id="t:headers/0">
+    <a href="#t:headers/0">headers</a> :: %{} | [{binary, binary}]
+  </p>
+  
+</div>
+
+        </section>
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <section class="detail">
+  <div class="detail_header" id="delete/3">
+    <span class="signature"><strong>delete(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>delete(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delete!/3">
+    <span class="signature"><strong>delete!(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete!/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>delete!(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delreq/1">
+    <span class="signature"><strong>delreq(path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delreq/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L36" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="get/3">
+    <span class="signature"><strong>get(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>get(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="get!/3">
+    <span class="signature"><strong>get!(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get!/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>get!(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="head/3">
+    <span class="signature"><strong>head(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#head/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>head(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="head!/3">
+    <span class="signature"><strong>head!(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#head!/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>head!(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="options/3">
+    <span class="signature"><strong>options(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#options/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>options(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="options!/3">
+    <span class="signature"><strong>options!(url, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#options!/3" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>options!(binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="patch/4">
+    <span class="signature"><strong>patch(url, body, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#patch/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>patch(binary, binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="patch!/4">
+    <span class="signature"><strong>patch!(url, body, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#patch!/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>patch!(binary, binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="post/4">
+    <span class="signature"><strong>post(url, body, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#post/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>post(binary, binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="post!/4">
+    <span class="signature"><strong>post!(url, body, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#post!/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>post!(binary, binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="postreq/2">
+    <span class="signature"><strong>postreq(path, body)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#postreq/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L21" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="process_request_headers/1">
+    <span class="signature"><strong>process_request_headers(headers)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#process_request_headers/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L12" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="process_response_body/1">
+    <span class="signature"><strong>process_response_body(body)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#process_response_body/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L16" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="process_url/1">
+    <span class="signature"><strong>process_url(url)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#process_url/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L4" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put/4">
+    <span class="signature"><strong>put(url, body, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>put(binary, binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="put!/4">
+    <span class="signature"><strong>put!(url, body, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#put!/4" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>put!(binary, binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: HTTPoison.Response.t | HTTPoison.AsyncResponse.t</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="putreq/2">
+    <span class="signature"><strong>putreq(path, body)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#putreq/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L29" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="req/1">
+    <span class="signature"><strong>req(path)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#req/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L41" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="request/5">
+    <span class="signature"><strong>request(method, url, body \\ &quot;&quot;, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#request/5" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>request(atom, binary, binary, <a href="#t:headers/0">headers</a>, [{atom, any}]) :: {:ok, HTTPoison.Response.t | HTTPoison.AsyncResponse.t} | {:error, HTTPoison.Error.t}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    <p>Sends an HTTP request.
+Args:</p>
+<ul>
+<li>method - HTTP method, atom (:get, :head, :post, :put, :delete, etc.)
+</li>
+<li>url - URL, binary string or char list
+</li>
+<li>body - request body, binary string or char list
+</li>
+<li>headers - HTTP headers, orddict (eg. [{:Accept, "application/json"}])
+</li>
+<li>options - orddict of options
+Options:
+</li>
+<li>timeout - timeout in ms, integer
+</li>
+<li>stream_to - process id to stream the response
+</li>
+</ul>
+<p>Returns {:ok, Response} or {:ok, AsyncResponse} if successful.
+{:error, Error} otherwise.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="request!/5">
+    <span class="signature"><strong>request!(method, url, body \\ &quot;&quot;, headers \\ [], options \\ [])</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#request!/5" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="start/0">
+    <span class="signature"><strong>start()</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#start/0" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Start httpoison and dependencies.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="transformer/1">
+    <span class="signature"><strong>transformer(target)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#transformer/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>transformer(pid) :: :ok</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/request.ex#L2" class="view_source">Source</a>
+  
+</section>
+
+        </section>
+      
+
+      
+
+      
+    </section>
+  </body>
+</html>
