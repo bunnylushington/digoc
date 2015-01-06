@@ -2,9 +2,9 @@ defmodule DigOcActionsTest do
   use ExUnit.Case
 
   @timeout 60000
-  @tag timeout: 60000
+  @moduletag timeout: 60000
   
-  defp info do
+  def info do
     %{ name: "test-#{ System.get_pid }",
        region: "nyc3",
        size: "512mb",
@@ -25,8 +25,12 @@ defmodule DigOcActionsTest do
   end
 
   setup do
-    GenEvent.add_mon_handler(DigOc.event_manager, DigOcActionsTest.Receiver,
-                                                                   self())
+    GenEvent.add_mon_handler(DigOc.event_manager, 
+                                   DigOcActionsTest.Receiver, self())
+
+    on_exit fn -> GenEvent.remove_handler(DigOc.event_manager, 
+                                                DigOcActionsTest.Receiver, [])
+            end
   end
 
   test "droplet actions" do

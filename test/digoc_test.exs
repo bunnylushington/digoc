@@ -39,7 +39,7 @@ defmodule DigOcTest do
 
   test "sizes" do
     sizes = DigOc.sizes!()
-    assert length(sizes.sizes) == sizes.meta.total
+    assert length(sizes.sizes) == sizes.meta.totdal
     {:ok, data, _headers} = DigOc.sizes
     assert data.sizes == sizes.sizes
   end
