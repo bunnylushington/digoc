@@ -6,7 +6,7 @@ defmodule DigOc.Mixfile do
      version: "0.0.1",
      elixir: "~> 1.0",
      source_url: "https://github.com/kevinmontuori/digoc",
-     homepage_url: "https://kevinmontuori.github.io/digoc",
+     homepage_url: "https://kevinmontuori.github.io/digoc/doc",
      deps: deps]
   end
 
