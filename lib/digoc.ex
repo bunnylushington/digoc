@@ -182,6 +182,17 @@ defmodule DigOc do
   def domains!, do: domains |> response
   
 
+  @doc """
+  Request a domain by name.
+  """
+  def domain(name), do: req("domains/#{ name }")
+
+  
+  @doc """
+  Like `domain/1` but returns the response body only.
+  """
+  def domain!(name), do: domain(name) |> response
+
   # ------------------------- DROPLETS.
   @doc """
   Requests a list of all droplets.

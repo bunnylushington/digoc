@@ -10,8 +10,15 @@ defmodule DigOcDomainsTest do
     assert is_list(DigOc.domains!.domains)
   end
 
-  test "create a domain" do
-    assert DigOc.Domain.new!(domain, @ip).domain.name == domain
+  test "create, retrieve, and delete a domain" do
+    d = DigOc.Domain.new!(domain, @ip)
+    assert d.domain.name == domain
+    retrieved = DigOc.domain!(domain)
+    assert retrieved.domain.name == d.domain.name
+    
   end
+
+
+
 
 end
