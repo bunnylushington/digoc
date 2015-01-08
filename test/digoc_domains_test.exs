@@ -38,6 +38,9 @@ defmodule DigOcDomainsTest do
     updated_rec = DigOc.Domain.record!(domain, new_id)
     assert updated_rec.domain_record.name == "updatedtestrec"
 
+    {_, "", headers} = DigOc.Domain.Record.delete(domain, new_id)
+    assert headers["Status"] == "204 No Content"
+
     DigOc.Domain.delete!(domain)
   end
 

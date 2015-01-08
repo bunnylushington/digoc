@@ -1,7 +1,7 @@
 defmodule DigOc.Domain.Record do
 
   import DigOc, only: [response: 1]
-  import DigOc.Request, only: [postreq: 2, putreq: 2]
+  import DigOc.Request, only: [postreq: 2, putreq: 2, delreq: 1]
 
 
   @doc """
@@ -28,5 +28,16 @@ defmodule DigOc.Domain.Record do
   """
   def update!(domain, id, name), do: update(domain, id, name) |> response
 
+
+  @doc """
+  Delete a domain record.
+  """
+  def delete(domain, id), do: delreq("domains/#{ domain }/records/#{ id }")
+
+  
+  @doc """
+  Like `delete/2` but return only the response body.
+  """
+  def delete!(domain, id), do: delete(domain, id) |> response
 
 end
