@@ -25,6 +25,14 @@ defmodule DigOcDomainsTest do
 
     assert is_list(DigOc.Domain.records!(domain).domain_records)
 
+    params = %{ name: "testrec", type: "TXT", data: "a test record" }
+    new = DigOc.Domain.Record.new!(domain, params)
+    
+    new_id = new.domain_record.id
+    rec = DigOc.Domain.record!(domain, new_id)
+
+    assert rec.domain_record.type == "TXT"
+    assert rec.domain_record.data == "\"a test record\""
 
     DigOc.Domain.delete!(domain)
   end

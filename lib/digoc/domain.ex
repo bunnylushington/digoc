@@ -39,4 +39,19 @@ defmodule DigOc.Domain do
   """
   def records!(domain), do: records(domain) |> response
 
+
+  @doc """
+  Retrieve the specified domain record
+  """
+  def record(domain, record_id) do
+    req("domains/#{ domain }/records/#{ record_id }")
+  end
+
+
+  @doc """
+  Like `record/2` but returns only the response body.
+  """
+  def record!(domain, record_id), do: record(domain, record_id) |> response
+
+
 end
