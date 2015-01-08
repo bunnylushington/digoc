@@ -1,14 +1,14 @@
 defmodule DigOcImagesTest do
   use ExUnit.Case
 
-  @moduletag timeout: 300000
-  @timeout 60000
+  @moduletag timeout: 600000
+  @timeout 600000
 
   def info do
     %{ name: "test-#{ System.get_pid }-img",
        region: "nyc3",
        size: "512mb",
-       image: "coreos-beta",
+       image: "debian-7-0-x32",
        ssh_keys: [164439],
        backups: false,
        ipv6: true,
@@ -47,7 +47,7 @@ defmodule DigOcImagesTest do
     res = DigOc.Droplet.new!(info)
     id = res.droplet.id
     assert is_integer(id)
-    assert_receive {:achieved_status, id, :active}, @timeout
+    assert_receive {:achieved_status, ^id, :active}, @timeout
 
     DigOc.Droplet.power_off(id)
     assert_receive {:action_finished, id, _, _}, @timeout
@@ -62,6 +62,11 @@ defmodule DigOcImagesTest do
     DigOc.Image.update!(image.id, "fancy new name")
     second_image = DigOc.image!(image.id)
     assert second_image.image.name == "fancy new name"
+
+    image_id = image.id
+    DigOc.Image.transfer!(image_id, :nyc2)
+    
+    assert_receive {:action_finished, _, _, obj}, @timeout
 
     DigOc.Image.delete(image.id)
     DigOc.Droplet.delete(id)
