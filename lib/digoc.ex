@@ -168,6 +168,20 @@ defmodule DigOc do
   """
   def action!(id), do: action(id) |> response
 
+  
+  # ------------------------- DOMAINS.
+  @doc """
+  Request a list of domains.
+  """
+  def domains, do: req("domains")
+  
+  
+  @doc """
+  Like `domains/0` but returns the response body only.
+  """
+  def domains!, do: domains |> response
+  
+
   # ------------------------- DROPLETS.
   @doc """
   Requests a list of all droplets.
