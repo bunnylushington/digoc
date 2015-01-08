@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DigOc.Image</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="css/elixir.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <section id="content">
+      <div class="breadcrumbs">digoc v0.2.0 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="DigOc.html">DigOc</a> &rarr; <a href="DigOc.Image.html">Image</a></div>
+      <h1>
+        DigOc.Image
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+      </ul>
+
+      
+
+      
+        <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L1" class="view_source">Source</a>
+      
+
+      
+        <h2 id="summary">Summary<span class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></span></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#action!/2">action!(image_id, action_id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#action/2"><code class="inline">action/2</code></a> but return only the response body</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#action/2">action(image_id, action_id)</a></td>
+  
+    <td class="summary_synopsis"><p>Request the action object associated with the image and action</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete!/1">delete!(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#delete/1"><code class="inline">delete/1</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#delete/1">delete(id)</a></td>
+  
+    <td class="summary_synopsis"><p>Request that an image be deleted</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#transfer!/2">transfer!(id, region_slug)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#transfer/2"><code class="inline">transfer/2</code></a> but returns only the response body</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#transfer/2">transfer(id, region_slug)</a></td>
+  
+    <td class="summary_synopsis"><p>Request the image be transfered to a different region</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update!/2">update!(id, new_name)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="#update/2"><code class="inline">update/2</code></a> but returns the response body only</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#update/2">update(id, new_name)</a></td>
+  
+    <td class="summary_synopsis"><p>Request that an image be updated</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#wait_for_action/2">wait_for_action(image_id, action_id)</a></td>
+  
+    <td class="summary_synopsis"><p>Like <a href="DigOc.Droplet.html#wait_for_action/2"><code class="inline">DigOc.Droplet.wait_for_action/2</code></a> but for an image, not droplet, action</p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <section class="detail">
+  <div class="detail_header" id="action/2">
+    <span class="signature"><strong>action(image_id, action_id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#action/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request the action object associated with the image and action.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L52" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="action!/2">
+    <span class="signature"><strong>action!(image_id, action_id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#action!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#action/2"><code class="inline">action/2</code></a> but return only the response body.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L60" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delete/1">
+    <span class="signature"><strong>delete(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request that an image be deleted.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L10" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="delete!/1">
+    <span class="signature"><strong>delete!(id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#delete!/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#delete/1"><code class="inline">delete/1</code></a> but returns the response body only.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L16" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="transfer/2">
+    <span class="signature"><strong>transfer(id, region_slug)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#transfer/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request the image be transfered to a different region.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L34" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="transfer!/2">
+    <span class="signature"><strong>transfer!(id, region_slug)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#transfer!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#transfer/2"><code class="inline">transfer/2</code></a> but returns only the response body.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L46" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="update/2">
+    <span class="signature"><strong>update(id, new_name)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Request that an image be updated.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L22" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="update!/2">
+    <span class="signature"><strong>update!(id, new_name)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#update!/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="#update/2"><code class="inline">update/2</code></a> but returns the response body only.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L28" class="view_source">Source</a>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="wait_for_action/2">
+    <span class="signature"><strong>wait_for_action(image_id, action_id)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#wait_for_action/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Like <a href="DigOc.Droplet.html#wait_for_action/2"><code class="inline">DigOc.Droplet.wait_for_action/2</code></a> but for an image, not droplet, action.</p>
+
+  </section>
+  
+    <a href="https://github.com/kevinmontuori/digoc/blob/master/lib/digoc/image.ex#L66" class="view_source">Source</a>
+  
+</section>
+
+        </section>
+      
+
+      
+
+      
+    </section>
+  </body>
+</html>
