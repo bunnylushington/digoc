@@ -5,7 +5,7 @@ An Elixir client for the Digital Ocean API.  Please see doc/index.html for docum
 
 Note: the DNS actions are not yet implemented and I promise a better README soon!
 
-This library is (c) 2015 BAPI Consulting and release under the MIT License.  
+This library is (c) 2015 BAPI Consulting and released under the MIT License.  
 
 
 
