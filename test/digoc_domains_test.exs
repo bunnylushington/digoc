@@ -34,6 +34,10 @@ defmodule DigOcDomainsTest do
     assert rec.domain_record.type == "TXT"
     assert rec.domain_record.data == "\"a test record\""
 
+    DigOc.Domain.Record.update(domain, new_id, "updatedtestrec")
+    updated_rec = DigOc.Domain.record!(domain, new_id)
+    assert updated_rec.domain_record.name == "updatedtestrec"
+
     DigOc.Domain.delete!(domain)
   end
 
