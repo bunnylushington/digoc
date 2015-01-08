@@ -17,9 +17,17 @@ defmodule DigOcDomainsTest do
     assert retrieved.domain.name == d.domain.name
     {_, "", headers} = DigOc.Domain.delete(domain)
     assert headers["Status"] == "204 No Content"
-    
   end
 
+  test "domain records" do
+    d = DigOc.Domain.new!(domain, @ip)
+    assert d.domain.name == domain
+
+    assert is_list(DigOc.Domain.records!(domain).domain_records)
+
+
+    DigOc.Domain.delete!(domain)
+  end
 
 
 

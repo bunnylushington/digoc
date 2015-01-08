@@ -27,4 +27,16 @@ defmodule DigOc.Domain do
   """
   def delete!(name), do: delete(name) |> response
 
+
+  @doc """
+  List all domain records for the specified domain.
+  """
+  def records(domain), do: req("domains/#{ domain }/records")
+
+  
+  @doc """
+  Like `records/1` but returns only the response body.
+  """
+  def records!(domain), do: records(domain) |> response
+
 end
