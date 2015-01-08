@@ -3,7 +3,7 @@ defmodule DigOc.Mixfile do
 
   def project do
     [app: :digoc,
-     version: "0.1.0",
+     version: "0.2.0",
      elixir: "~> 1.0",
      description: "An Elixir client for the Digital Ocean API v2.",
      package: package,
