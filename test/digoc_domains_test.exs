@@ -15,6 +15,8 @@ defmodule DigOcDomainsTest do
     assert d.domain.name == domain
     retrieved = DigOc.domain!(domain)
     assert retrieved.domain.name == d.domain.name
+    {_, "", headers} = DigOc.Domain.delete(domain)
+    assert headers["Status"] == "204 No Content"
     
   end
 

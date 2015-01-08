@@ -15,4 +15,16 @@ defmodule DigOc.Domain do
   """
   def new!(name, id), do: new(name, id) |> response
 
+
+  @doc """
+  Request that a domain be deleted.
+  """
+  def delete(name), do: delreq("domains/#{ name }")
+
+
+  @doc """
+  Like `delete/1` but returns only the response body.
+  """
+  def delete!(name), do: delete(name) |> response
+
 end
