@@ -66,7 +66,7 @@ defmodule DigOcImagesTest do
     image_id = image.id
     DigOc.Image.transfer!(image_id, :nyc2)
     
-    assert_receive {:action_finished, _, _, obj}, @timeout
+    assert_receive {:action_finished, _, _, _}, @timeout
 
     DigOc.Image.delete(image.id)
     DigOc.Droplet.delete(id)

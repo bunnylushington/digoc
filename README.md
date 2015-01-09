@@ -1,9 +1,10 @@
 DigOc
 =====
 
-An Elixir client for the Digital Ocean API.  Please see doc/index.html for documentation.  If you find errors, don't hesitate to submit a GitHub issue.
+An Elixir client for the Digital Ocean API.  If you find errors, please don't hesitate to file a GitHub issue.
 
-Note: the DNS actions are not yet implemented and I promise a better README soon!
+Documentation is available at http://hexdocs.pm/digoc/0.2.0/
+
 
 This library is (c) 2015 BAPI Consulting and released under the MIT License.  
 
