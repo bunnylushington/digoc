@@ -7,10 +7,11 @@ defmodule DigOc.Mixfile do
      elixir: "~> 1.0",
      description: "An Elixir client for the Digital Ocean API v2.",
      package: package,
-     name: "DigOc",
-     main: "DigOc",
-     source_url: "https://github.com/kevinmontuori/digoc",
-     homepage_url: "https://kevinmontuori.github.io/digoc/doc",
+     docs: [
+            source_url: "https://github.com/kevinmontuori/digoc",
+            homepage_url: "https://kevinmontuori.github.io/digoc/doc",
+            main: "DigOc"
+       ],
      deps: deps]
   end
 
