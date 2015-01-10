@@ -10,7 +10,8 @@ defmodule DigOc.Mixfile do
      docs: [
             source_url: "https://github.com/kevinmontuori/digoc",
             homepage_url: "https://kevinmontuori.github.io/digoc/doc",
-            main: "DigOc"
+            main: "README",
+            readme: "README.md"
        ],
      deps: deps]
   end
