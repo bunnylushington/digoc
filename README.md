@@ -94,7 +94,70 @@ NB: The results shown have been edited and often truncated.  For documentation o
     ** (RuntimeError) No bookmark for next page.
         (digoc) lib/digoc/page.ex:24: DigOc.Page.get_page/2
         (digoc) lib/digoc/page.ex:13: DigOc.Page.next!/1
-    
+
+
+    iex(18)> DigOc.action!(40940233)
+    %{action: %{completed_at: "2015-01-10T16:07:39Z", id: 40940233,
+        region: "nyc3", resource_id: 3723327, resource_type: "droplet",
+        started_at: "2015-01-10T16:07:36Z", status: "completed",
+        type: "destroy"}}
+
+
+### Domains ###
+
+    iex(26)>  DigOc.Domain.new!("bapi.us", "10.0.0.1")
+    %{domain: %{name: "bapi.us", ttl: 1800, zone_file: nil}}
+
+    iex(29)>  DigOc.Domain.new!("another.bapi.us", "10.0.0.1")
+    %{domain: %{name: "another.bapi.us", ttl: 1800, zone_file: nil}}
+
+    iex(30)> DigOc.domains!
+    %{domains: [%{name: "bapi.us", ttl: 1800,
+         zone_file: "$ORIGIN bapi.us.\n..."},
+       %{name: "another.bapi.us", ttl: 1800,
+         zone_file: "$ORIGIN another.bapi.us.\n..."}],
+      links: %{}, meta: %{total: 2}}
+
+    iex(32)> DigOc.domain!("another.bapi.us")
+    %{domain: %{name: "another.bapi.us", ttl: 1800,
+        zone_file: "$ORIGIN another.bapi.us.\n..."}}
+
+    ex(2)> DigOc.Domain.delete("another.bapi.us")
+    {:ok, "", %{"Status" => "204 No Content"}}
+
+
+### Domain Records ###
+
+    iex(3)>  DigOc.Domain.Record.new!("bapi.us", %{ type: "A",
+                                                    name: "test.bapi.us",
+                                                    data: "10.0.0.2" })
+    %{domain_record: %{data: "10.0.0.2", id: 3833327, name: "test.bapi.us",
+    port: nil, priority: nil, type: "A", weight: nil}}
+
+    iex(4)> DigOc.Domain.records!("bapi.us")
+    %{domain_records: [%{data: "ns1.digitalocean.com", id: 3833164, name: "@",
+         port: nil, priority: nil, type: "NS", weight: nil},
+       %{data: "ns2.digitalocean.com", id: 3833165, name: "@", port: nil,
+         priority: nil, type: "NS", weight: nil},
+       %{data: "ns3.digitalocean.com", id: 3833166, name: "@", port: nil,
+         priority: nil, type: "NS", weight: nil},
+       %{data: "10.0.0.1", id: 3833167, name: "@", port: nil, priority: nil,
+         type: "A", weight: nil},
+       %{data: "10.0.0.2", id: 3833326, name: "test.bapi.us", port: nil,
+         priority: nil, type: "A", weight: nil},
+       %{data: "10.0.0.2", id: 3833327, name: "test.bapi.us", port: nil,
+         priority: nil, type: "A", weight: nil}], links: %{}, meta: %{total: 6}}
+
+    iex(9)> DigOc.Domain.record!("bapi.us", 3833327)
+    %{domain_record: %{data: "10.0.0.2", id: 3833327, name: "test.bapi.us",
+    port: nil, priority: nil, type: "A", weight: nil}}
+
+    iex(2)> DigOc.Domain.Record.update!("bapi.us", 3833327, "prod.bapi.us")
+    %{domain_record: %{data: "10.0.0.2", id: 3833327, name: "prod.bapi.us",
+        port: nil, priority: nil, type: "A", weight: nil}}
+
+    iex(3)> DigOc.Domain.Record.delete("bapi.us", 3833327)
+    {:ok, "", %{"Status" => "204 No Content"}}
 
 ## Copyright ##
 
