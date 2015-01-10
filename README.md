@@ -6,6 +6,7 @@ DigOc API Documentation is available at http://hexdocs.pm/digoc
 
 The [Digital Ocean API documenation](https://developers.digitalocean.com/) will prove helpful.
 
+[Please note: the "examples" documentation effort here is ongoing but I believe the API is fully documented.  If something there is confusing or missing or just plain wrong it's a bug; please file a GitHub issue.]
 
 ## Authentication ##
 
@@ -86,8 +87,8 @@ NB: The results shown have been edited and often truncated.  For documentation o
                   started_at: "2012-09-20T17:58:05Z", status: "completed",
                   type: "create"}],
       links: %{pages:
-        %{first: "https://api.digitalocean.com/v2/actions?page=1&per_page=3",
-          prev: "https://api.digitalocean.com/v2/actions?page=381&per_page=3"}},
+       %{first: "https://api.digitalocean.com/v2/actions?page=1&per_page=3",
+         prev: "https://api.digitalocean.com/v2/actions?page=381&per_page=3"}},
       meta: %{total: 1144}}
 
     iex(18)> DigOc.Page.next!(last_res)
