@@ -2,6 +2,7 @@ defmodule DigOcImagesTest do
   use ExUnit.Case
 
   @moduletag timeout: 600000
+  @moduletag :external
   @timeout 600000
 
   def info do

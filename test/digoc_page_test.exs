@@ -1,6 +1,7 @@
 defmodule DigOcPageTest do
   use ExUnit.Case
 
+  @moduletag :external
   test "pagination" do
 
     # test predicates

@@ -3,6 +3,7 @@ defmodule DigOcActionsTest do
 
   @timeout 60000
   @moduletag timeout: 60000
+  @moduletag :external
   
   def info do
     %{ name: "test-#{ System.get_pid }",

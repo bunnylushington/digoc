@@ -130,6 +130,18 @@ defmodule DigOc do
   def bang(atom), do: String.to_atom(to_string(atom) <> "!")
   
 
+  @doc """
+  Request a page from Digital Ocean.  Most likely used to retrieve pages
+  that are specified somewhere in the :links key (like the next or previous 
+  page of results.
+  """
+  def page(url), do: req(url)
+
+  @doc """
+  Like `page/1` but only return the response body.
+  """
+  def page!(url), do: req(url) |> response
+    
   # ------------------------- ACCOUNT.
   @doc """
   Requests information about the registered account.

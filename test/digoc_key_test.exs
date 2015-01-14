@@ -1,6 +1,8 @@
 defmodule DigOcTestKeys do
   use ExUnit.Case
 
+  @moduletag :external
+  
   test "get keys" do
     keys = DigOc.keys!()
     assert length(keys.ssh_keys) == keys.meta.total
@@ -16,7 +18,7 @@ defmodule DigOcTestKeys do
     assert key == key_by_id
     assert key == key_by_fingerprint
   end
-
+  
   test "crud key" do
     pubkey = File.read!("test/testkey.pub")
     {:ok, res, _headers} = DigOc.Key.new("testkey", pubkey)

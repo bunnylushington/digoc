@@ -4,12 +4,14 @@ defmodule DigOcDomainsTest do
   @ip "162.243.118.118"
   @domain "bapi.us"
 
-  def domain, do: "#{ System.get_pid }-" <> @domain
+  @moduletag :external
   
+  def domain, do: "#{ System.get_pid }-" <> @domain
+
   test "list all domains" do
     assert is_list(DigOc.domains!.domains)
   end
-
+  
   test "create, retrieve, and delete a domain" do
     d = DigOc.Domain.new!(domain, @ip)
     assert d.domain.name == domain
@@ -19,6 +21,7 @@ defmodule DigOcDomainsTest do
     assert headers["Status"] == "204 No Content"
   end
 
+  
   test "domain records" do
     d = DigOc.Domain.new!(domain, @ip)
     assert d.domain.name == domain

@@ -1,6 +1,8 @@
 defmodule DigOcDropletsTest do
   use ExUnit.Case
 
+  @moduletag :external
+  
   setup_all do
     {:ok, droplet: hd(DigOc.droplets!.droplets)}
   end
