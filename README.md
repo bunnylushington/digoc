@@ -8,6 +8,11 @@ The [Digital Ocean API documenation](https://developers.digitalocean.com/) will 
 
 [Please note: the "examples" documentation effort here is ongoing but I believe the API is fully documented.  If something there is confusing or missing or just plain wrong it's a bug; please file a GitHub issue.]
 
+## Porcelain vs. Plumbing ##
+
+I'm working on a [separate
+library](https://github.com/kevinmontuori/DigitalOcean) that wraps this library with more developer friendly functions.  That is a work in progress and in no way deprecates this code (quite the opposite: it relies on it).  If you're doing anything more than a quick 'n' dirty script, it might be worth taking a look.  
+
 ## Authentication ##
 
 Generate a Digital Ocean from the [Applications & API
