@@ -232,7 +232,9 @@ defmodule DigOc do
 
   # ------------------------- IMAGES.
   @doc """
-  Lists available images.  Type may be `:application` or `:distribution`. 
+  Lists available images.  
+
+  Type may be :application, :distribution, or :private.
   """
   def images(type \\ nil) do
     query = case type do
