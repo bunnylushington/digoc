@@ -235,7 +235,11 @@ defmodule DigOc do
   Lists available images.  Type may be `:application` or `:distribution`. 
   """
   def images(type \\ nil) do
-    query = if type, do: "?type=#{ type }", else: ""
+    query = case type do
+              nil -> ""
+              :private -> "?private=true"
+              other -> "?type=#{ other }"
+            end
     req("images#{ query }")
   end
 
