@@ -50,4 +50,9 @@ defmodule DigOcDropletsTest do
     assert is_list(DigOc.Droplet.upgrades!)
   end
 
+  test "droplet neighbors" do
+    assert is_map(DigOc.droplet_neighbors!)
+    assert is_list(DigOc.droplet_neighbors!().neighbors)
+  end
+  
 end

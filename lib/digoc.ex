@@ -230,6 +230,27 @@ defmodule DigOc do
   def droplet!(id), do: droplet(id) |> response
 
 
+  @doc """
+  Requests all droplet neighbors.
+  """
+  def droplet_neighbors, do: req("reports/droplet_neighbors")
+
+  @doc """
+  Like `droplet_neighbors/0` but returns response body only.
+  """
+  def droplet_neighbors!, do: droplet_neighbors |> response
+
+  @doc """
+  Requests neighbors for the supplied droplet ID.
+  """
+  def droplet_neighbors(id), do: req("droplets/#{ id }/neighbors")
+
+  @doc """
+  Like `droplet_neighbors/1` but returns response body only.
+  """
+  def droplet_neighbors!(id), do: droplet_neighbors(id) |> response
+    
+
   # ------------------------- IMAGES.
   @doc """
   Lists available images.  
